@@ -48,6 +48,9 @@ class Router
                 elseif($url === 'deleteComment'){
                     $this->backController->deleteComment($this->request->getGet()->get('commentId'));
                 }
+                elseif($url === 'register'){
+                    $this->frontController->register($this->request->getPost());
+                }
                 else{
                     $this->errorController->errorNotFound();
                 }
