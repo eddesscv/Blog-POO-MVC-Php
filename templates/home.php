@@ -15,6 +15,9 @@ if ($this->session->get('pseudo')) {
 ?>
     <a href="../public/index.php?url=logout">Déconnexion</a>
     <a href="../public/index.php?url=profile">Profil</a>
+    <?php if($this->session->get('role') === 'admin') { ?>
+        <a href="../public/index.php?url=administration">Administration</a>
+    <?php } ?>
     <a href="../public/index.php?url=addArticle">Nouvel article</a>
 <?php
 } else {

@@ -66,6 +66,9 @@ class Router
                 elseif($url === 'deleteAccount'){
                     $this->backController->deleteAccount();
                 }
+                elseif($url === 'administration'){
+                    $this->backController->administration();
+                }
                 else{
                     $this->errorController->errorNotFound();
                 }
