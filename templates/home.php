@@ -5,7 +5,10 @@
 <?= $this->session->show('add_comment'); ?>
 <?= $this->session->show('flag_comment'); ?>
 <?= $this->session->show('delete_comment'); ?>
-<a href="../public/index.php?url    =addArticle">Nouvel article</a>
+<?= $this->session->show('register'); ?>
+<a href="../public/index.php?url=register">Inscription</a>
+<a href="../public/index.php?url=login">Connexion</a>
+<a href="../public/index.php?url=addArticle">Nouvel article</a>
 <?php
 foreach ($articles as $article) {
 ?>
