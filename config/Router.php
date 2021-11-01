@@ -51,6 +51,18 @@ class Router
                 elseif($url === 'register'){
                     $this->frontController->register($this->request->getPost());
                 }
+                elseif($url === 'login'){
+                    $this->frontController->login($this->request->getPost());
+                }
+                elseif($url === 'profile'){
+                    $this->backController->profile();
+                }
+                elseif($url === 'updatePassword'){
+                    $this->backController->updatePassword($this->request->getPost());
+                }
+                elseif($url === 'logout'){
+                    $this->backController->logout();
+                }
                 else{
                     $this->errorController->errorNotFound();
                 }
