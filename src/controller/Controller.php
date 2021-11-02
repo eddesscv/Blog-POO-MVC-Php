@@ -1,11 +1,13 @@
 <?php
 
 namespace App\src\controller;
+
 use App\config\Request;
 use App\src\constraint\Validation;
 use App\src\Manager\ArticleManager;
 use App\src\Manager\CommentManager;
 use App\src\Manager\UserManager;
+use App\src\model\Pagination;
 use App\src\model\View;
 
 abstract class Controller
@@ -17,6 +19,7 @@ abstract class Controller
     protected $get;
     protected $post;
     protected $session;
+    protected $pagination;
     protected $validation;
 
     public function __construct()
@@ -25,6 +28,7 @@ abstract class Controller
         $this->commentManager = new CommentManager();
         $this->userManager = new UserManager();
         $this->view = new View();
+        $this->pagination = new Pagination();
         $this->validation = new Validation();
         $request = new Request();
         $this->get = $request->getGet();

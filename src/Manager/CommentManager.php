@@ -17,9 +17,19 @@ class CommentManager extends Manager
         $comment->setFlag($row['flag']);
         return $comment;
     }
-    public function getCommentsFromArticle($articleId)
+
+    public function total($articleId)
+    {
+        $sql = 'SELECT COUNT(*) FROM comment WHERE article_id = ?';
+        return $this->createQuery($sql, [$articleId])->fetchColumn();
+    }
+
+    public function getCommentsFromArticle($articleId, $limit = null, $start = null)
     {
         $sql = 'SELECT id, pseudo, content, createdAt, flag FROM comment WHERE article_id = ? ORDER BY createdAt DESC';
+        if($limit) {
+            $sql .= ' LIMIT '.$limit.' OFFSET '.$start;
+        }
         $result = $this->createQuery($sql, [$articleId]);
         $comments = [];
         foreach ($result as $row) {

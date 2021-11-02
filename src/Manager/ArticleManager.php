@@ -17,9 +17,17 @@ class ArticleManager extends Manager
         $article->setCreatedAt($row['createdAt']);
         return $article;
     }
-    public function getArticles()
+    public function total()
+    {
+        $sql = 'SELECT COUNT(*) FROM article';
+        return $this->createQuery($sql)->fetchColumn();
+    }
+    public function getArticles($limit = null, $start = null)
     {
         $sql = 'SELECT article.id, article.title, article.content, user.pseudo, article.createdAt FROM article INNER JOIN user ON article.user_id = user.id ORDER BY article.id DESC';
+        if($limit) {
+            $sql .= ' LIMIT '.$limit.' OFFSET '.$start;
+        }
         $result = $this->createQuery($sql);
         $articles = [];
         foreach ($result as $row){

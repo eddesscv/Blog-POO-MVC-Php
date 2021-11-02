@@ -40,3 +40,13 @@ foreach ($articles as $article) {
 <?php
 }
 ?>
+<?php
+for($i = 1; $i <= $pagination->getPageNumber(); $i++) {
+    if($pagination->getPage() == $i){
+        echo $i;
+    } else {
+        ?>
+        <a href="../public/index.php?page=<?= $i; ?>"><?= $i; ?></a>
+        <?php
+    }
+}

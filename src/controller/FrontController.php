@@ -8,18 +8,22 @@ class FrontController extends Controller
 {
     public function home()
     {
-        $articles = $this->articleManager->getArticles();
+        $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->articleManager->total());
+        $articles = $this->articleManager->getArticles($pagination->getLimit(), $this->pagination->getStart());
         return $this->view->render('home', [
-            'articles' => $articles
+            'articles' => $articles,
+            'pagination' => $pagination,
         ]);
     }
     public function article($articleId)
     {
         $article = $this->articleManager->getArticle($articleId);
-        $comments = $this->commentManager->getCommentsFromArticle($_GET['articleId']);
+        $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->commentManager->total($articleId));
+        $comments = $this->commentManager->getCommentsFromArticle($articleId, $pagination->getLimit(), $pagination->getStart());
         return $this->view->render('single', [
             'article' => $article,
-            'comments' => $comments
+            'comments' => $comments,
+            'pagination' => $pagination,
         ]);
     }
     public function addComment(Parameter $post, $articleId)
