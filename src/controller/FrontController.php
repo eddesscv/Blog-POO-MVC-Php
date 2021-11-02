@@ -8,15 +8,15 @@ class FrontController extends Controller
 {
     public function home()
     {
-        $articles = $this->articleDAO->getArticles();
+        $articles = $this->articleManager->getArticles();
         return $this->view->render('home', [
             'articles' => $articles
         ]);
     }
     public function article($articleId)
     {
-        $article = $this->articleDAO->getArticle($articleId);
-        $comments = $this->commentDAO->getCommentsFromArticle($_GET['articleId']);
+        $article = $this->articleManager->getArticle($articleId);
+        $comments = $this->commentManager->getCommentsFromArticle($_GET['articleId']);
         return $this->view->render('single', [
             'article' => $article,
             'comments' => $comments
@@ -27,12 +27,12 @@ class FrontController extends Controller
         if ($post->get('submit')) {
             $errors = $this->validation->validate($post, 'Comment');
             if (!$errors) {
-                $this->commentDAO->addComment($post, $articleId);
+                $this->commentManager->addComment($post, $articleId);
                 $this->session->set('add_comment', 'Le nouveau commentaire a bien été ajouté');
                 header('Location: ../public/index.php');
             }
-            $article = $this->articleDAO->getArticle($articleId);
-            $comments = $this->commentDAO->getCommentsFromArticle($articleId);
+            $article = $this->articleManager->getArticle($articleId);
+            $comments = $this->commentManager->getCommentsFromArticle($articleId);
             return $this->view->render('single', [
                 'article' => $article,
                 'comments' => $comments,
@@ -43,7 +43,7 @@ class FrontController extends Controller
     }
     public function flagComment($commentId)
     {
-        $this->commentDAO->flagComment($commentId);
+        $this->commentManager->flagComment($commentId);
         $this->session->set('flag_comment', 'Le commentaire a bien été signalé');
         header('Location: ../public/index.php');
     }
@@ -51,11 +51,11 @@ class FrontController extends Controller
     {
         if ($post->get('submit')) {
             $errors = $this->validation->validate($post, 'User');
-            if ($this->userDAO->checkUser($post)) {
-                $errors['pseudo'] = $this->userDAO->checkUser($post);
+            if ($this->userManager->checkUser($post)) {
+                $errors['pseudo'] = $this->userManager->checkUser($post);
             }
             if (!$errors) {
-                $this->userDAO->register($post);
+                $this->userManager->register($post);
                 $this->session->set('register', 'Votre inscription a bien été effectuée');
                 header('Location: ../public/index.php');
             }
@@ -69,7 +69,7 @@ class FrontController extends Controller
     public function login(Parameter $post)
     {
         if($post->get('submit')) {
-            $result = $this->userDAO->login($post);
+            $result = $this->userManager->login($post);
             if($result && $result['isPasswordValid']) {
                 $this->session->set('login', 'Content de vous revoir');
                 $this->session->set('id', $result['result']['id']);

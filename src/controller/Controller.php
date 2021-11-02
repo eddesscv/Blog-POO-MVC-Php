@@ -3,16 +3,16 @@
 namespace App\src\controller;
 use App\config\Request;
 use App\src\constraint\Validation;
-use App\src\DAO\ArticleDAO;
-use App\src\DAO\CommentDAO;
-use App\src\DAO\UserDAO;
+use App\src\Manager\ArticleManager;
+use App\src\Manager\CommentManager;
+use App\src\Manager\UserManager;
 use App\src\model\View;
 
 abstract class Controller
 {
-    protected $articleDAO;
-    protected $commentDAO;
-    protected $userDAO;
+    protected $articleManager;
+    protected $commentManager;
+    protected $userManager;
     protected $view;
     protected $get;
     protected $post;
@@ -21,9 +21,9 @@ abstract class Controller
 
     public function __construct()
     {
-        $this->articleDAO = new ArticleDAO();
-        $this->commentDAO = new CommentDAO();
-        $this->userDAO = new UserDAO();
+        $this->articleManager = new ArticleManager();
+        $this->commentManager = new CommentManager();
+        $this->userManager = new UserManager();
         $this->view = new View();
         $this->validation = new Validation();
         $request = new Request();

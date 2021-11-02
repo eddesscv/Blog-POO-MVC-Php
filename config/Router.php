@@ -45,6 +45,9 @@ class Router
                 elseif($url === 'flagComment'){
                     $this->frontController->flagComment($this->request->getGet()->get('commentId'));
                 }
+                elseif($url === 'unflagComment'){
+                    $this->backController->unflagComment($this->request->getGet()->get('commentId'));
+                }
                 elseif($url === 'deleteComment'){
                     $this->backController->deleteComment($this->request->getGet()->get('commentId'));
                 }
@@ -65,6 +68,9 @@ class Router
                 }
                 elseif($url === 'deleteAccount'){
                     $this->backController->deleteAccount();
+                }
+                elseif($url === 'deleteUser'){
+                    $this->backController->deleteUser($this->request->getGet()->get('userId'));
                 }
                 elseif($url === 'administration'){
                     $this->backController->administration();

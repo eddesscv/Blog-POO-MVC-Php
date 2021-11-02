@@ -1,5 +1,7 @@
 <?php
+
 namespace App\src\model;
+
 class User
 {
     /**
@@ -18,6 +20,10 @@ class User
      * @var \DateTime
      */
     private $createdAt;
+    /**
+     * @var string
+     */
+    private $role;
     /**
      * @return int
      */
@@ -73,5 +79,19 @@ class User
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+    }
+    /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+    /**
+     * @param string $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 }

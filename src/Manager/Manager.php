@@ -1,11 +1,11 @@
 <?php
 
-namespace App\src\DAO;
+namespace App\src\Manager;
 
 use PDO;
 use Exception;
 
-abstract class DAO
+abstract class Manager
 {
     private $connection;
     private function checkConnection()
