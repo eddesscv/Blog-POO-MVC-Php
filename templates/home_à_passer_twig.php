@@ -9,6 +9,7 @@
 <?= $this->session->show('login'); ?>
 <?= $this->session->show('logout'); ?>
 <?= $this->session->show('delete_account'); ?>
+<?= $this->session->show('error_search'); ?>
 
 <?php
 if ($this->session->get('pseudo')) {
@@ -27,8 +28,10 @@ if ($this->session->get('pseudo')) {
 <?php
 }
 ?>
+<?php include ('form_search.php'); ?>
 <?php
-foreach ($articles as $article) {
+foreach ($articles as $article)
+{
 ?>
     <div>
         <h2><a href="../public/index.php?url=article&articleId=<?= htmlspecialchars($article->getId()); ?>"><?= htmlspecialchars($article->getTitle()); ?></a></h2>

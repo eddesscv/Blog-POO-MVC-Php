@@ -1,0 +1,11 @@
+{% set url = post and post.get('id') ? 'editComment' : 'addComment' %}
+{% set submit = url is same as ('addComment') ? 'Ajouter' : 'Mettre à jour' %}
+<form method="post" action="../public/index.php?url={{ url }}&articleId={{ article.id }}">
+    <label for="pseudo">Pseudo</label><br>
+    <input type="text" id="pseudo" name="pseudo" value="{% if post %}{{ post.pseudo }}{% endif %}"><br>
+    {% if errors.pseudo %}{{ errors.pseudo }}{% endif %}
+    <label for="content">Message</label><br>
+    <textarea id="content" name="content">{% if post %}{{ post.content }}{% endif %}</textarea><br>
+    {% if errors.content %}{{ errors.content }}{% endif %}
+    <input type="submit" value="{{ submit }}" id="submit" name="submit">
+</form>

@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+{% block title %}Administration{% endblock %}
+{% block content %}
+{{ include('back/flashes.html.twig') }}
+<h2>Articles</h2>
+<a href="../public/index.php?url=addArticle">Nouvel article</a>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Titre</td>
+        <td>Contenu</td>
+        <td>Auteur</td>
+        <td>Date</td>
+        <td>Actions</td>
+    </tr>
+    {% for article in articles %}
+        <tr>
+            <td>{{ article.id }}</td>
+            <td><a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.title }}</a></td>
+            <td>{{ article.content|slice(0, 150) }}</td>
+            <td>{{ article.author }}</td>
+            <td>Créé le : {{ article.createdAt }}</td>
+            <td>
+                <a href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
+                <a href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+<h2>Commentaires signalés</h2>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Pseudo</td>
+        <td>Message</td>
+        <td>Date</td>
+        <td>Actions</td>
+    </tr>
+    {% for comment in comments %}
+        <tr>
+            <td>{{ comment.id }}</td>
+            <td>{{ comment.pseudo }}</td>
+            <td>{{ comment.content|slice(0, 150) }}</td>
+            <td>Créé le : {{ comment.createdAt }}</td>
+            <td>
+                <a href="../public/index.php?url=unflagComment&commentId={{ comment.id }}">Désignaler le commentaire</a>
+                <a href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer le commentaire</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+<h2>Utilisateurs</h2>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Pseudo</td>
+        <td>Date</td>
+        <td>Rôle</td>
+        <td>Actions</td>
+    </tr>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.pseudo }}</td>
+            <td>Créé le : {{ user.createdAt }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                {% if user.role is not same as('admin') %}
+                    <a href="../public/index.php?url=deleteUser&userId={{ user.id }}">Supprimer</a>
+                {% else %}
+                    <p>Suppression impossible</p>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

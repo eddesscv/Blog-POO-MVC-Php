@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.content }}</p>
+    <p>{{ article.author }}</p>
+    <p>Créé le : {{ article.createdAt }}</p>
+    <br>
+    {% if session.get('role') is same as('admin') %}
+        <div class="actions">
+            <a href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
+            <a href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
+        </div>
+        <br>
+    {% endif %}
+    <a href="../public/index.php">Retour à l'accueil</a>
+    <div id="comments" class="text-left" style="margin-left: 50px">
+        <h3>Ajouter un commentaire</h3>
+        {{ include('front/form_comment.html.twig') }}
+        <h3>Commentaires</h3>
+        {% if comments|length > 0 %}
+            {% for comment in comments %}
+                <h4>{{ comment.pseudo }}</h4>
+                <p>{{ comment.content }}</p>
+                <p>Posté le {{ comment.createdAt }}</p>
+                {% if comment.flag %}
+                    <p>Ce commentaire a déjà été signalé</p>
+                {% else %}
+                    <p><a href="../public/index.php?url=flagComment&commentId={{ comment.id }}">Signaler le commentaire</a></p>
+                {% endif %}
+                {% if session.get('role') is same as('admin') %}
+                    <p><a href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer le commentaire</a></p>
+                {% endif %}
+                <br>
+            {% endfor %}
+            {{ include('front/pagination.html.twig', {
+                url: 'url=article&articleId=' ~ article.id ~ '&'
+            }) }}
+        {% else %}
+            <p>Aucun commentaire pour le moment</p>
+        {% endif %}
+    </div>
+{% endblock %}

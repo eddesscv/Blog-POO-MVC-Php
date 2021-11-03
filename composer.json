@@ -11,5 +11,7 @@
         "email": "ednilsonmendes@outlook.com"
     }],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "twig/twig": "^3.3"
+    }
 }

@@ -1,0 +1,7 @@
+{% for page in 1..pagination.pageNumber|number_format %}
+    {% if pagination.page|number_format is same as (page|number_format) %}
+        {{ page }}
+    {% else %}
+        <a href="../public/index.php?{{ url }}page={{ page }}">{{ page }}</a>
+    {% endif %}
+{% endfor %}

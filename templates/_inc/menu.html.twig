@@ -1,0 +1,6 @@
+{% if session.get('pseudo') %}
+<a href="../public/index.php?url=logout">Déconnexion</a>
+<a href="../public/index.php?url=profile">Profil</a> {% if session.get('role') is same as('admin') %}
+<a href="../public/index.php?url=administration">Administration</a> {% endif %} {% else %}
+<a href="../public/index.php?url=register">Inscription</a>
+<a href="../public/index.php?url=login">Connexion</a> {% endif %}

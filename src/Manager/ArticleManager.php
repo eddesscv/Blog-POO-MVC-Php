@@ -68,4 +68,25 @@ class ArticleManager extends Manager
         $sql = 'DELETE FROM article WHERE id = ?';
         $this->createQuery($sql, [$articleId]);
     }
+    public function search($value)
+    {
+        $sql = '
+            SELECT article.id, article.title, article.content, user.pseudo, article.createdAt
+            FROM article
+            INNER JOIN user
+            ON article.user_id = user.id
+            WHERE article.title
+            LIKE ?
+            OR article.content
+            LIKE ?
+            ORDER BY article.id DESC';
+        $result = $this->createQuery($sql, ['%'.$value.'%', '%'.$value.'%']);
+        $articles = [];
+        foreach ($result as $row){
+            $articleId = $row['id'];
+            $articles[$articleId] = $this->buildObject($row);
+        }
+        $result->closeCursor();
+        return $articles;
+    }
 }

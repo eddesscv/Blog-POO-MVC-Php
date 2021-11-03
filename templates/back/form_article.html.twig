@@ -1,0 +1,11 @@
+{% set url = post and post.get('id') ? 'editArticle&articleId=' ~ post.get('id'): 'addArticle' %}
+{% set submit = url is same as ('addArticle') ? 'Envoyer' : 'Mettre à jour' %}
+<form method="post" action="../public/index.php?url={{ url }}">
+    <label for="title">Titre</label><br>
+    <input type="text" id="title" name="title" value="{% if post %}{{ post.get('title') }}{% endif %}"><br>
+    {% if errors.title %}{{ errors.title }}{% endif %}
+    <label for="content">Contenu</label><br>
+    <textarea id="content" name="content">{% if post %}{{ post.get('content') }}{% endif %}</textarea><br>
+    {% if errors.content %}{{ errors.content }}{% endif %}
+    <input type="submit" value="{{ submit }}" id="submit" name="submit">
+</form>

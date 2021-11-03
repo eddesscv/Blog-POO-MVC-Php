@@ -10,7 +10,7 @@ class FrontController extends Controller
     {
         $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->articleManager->total());
         $articles = $this->articleManager->getArticles($pagination->getLimit(), $this->pagination->getStart());
-        return $this->view->render('home', [
+        return $this->render('front/home.html.twig', [
             'articles' => $articles,
             'pagination' => $pagination,
         ]);
@@ -20,7 +20,7 @@ class FrontController extends Controller
         $article = $this->articleManager->getArticle($articleId);
         $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->commentManager->total($articleId));
         $comments = $this->commentManager->getCommentsFromArticle($articleId, $pagination->getLimit(), $pagination->getStart());
-        return $this->view->render('single', [
+        return $this->render('front/single.html.twig', [
             'article' => $article,
             'comments' => $comments,
             'pagination' => $pagination,
@@ -37,7 +37,7 @@ class FrontController extends Controller
             }
             $article = $this->articleManager->getArticle($articleId);
             $comments = $this->commentManager->getCommentsFromArticle($articleId);
-            return $this->view->render('single', [
+            return $this->render('front/single.html.twig', [
                 'article' => $article,
                 'comments' => $comments,
                 'post' => $post,
@@ -63,12 +63,12 @@ class FrontController extends Controller
                 $this->session->set('register', 'Votre inscription a bien été effectuée');
                 header('Location: ../public/index.php');
             }
-            return $this->view->render('register', [
+            return $this->render('front/register.html.twig', [
                 'post' => $post,
                 'errors' => $errors
             ]);
         }
-        return $this->view->render('register');
+        return $this->render('front/register.html.twig');
     }
     public function login(Parameter $post)
     {
@@ -83,11 +83,28 @@ class FrontController extends Controller
             }
             else {
                 $this->session->set('error_login', 'Le pseudo ou le mot de passe sont incorrects');
-                return $this->view->render('login', [
+                return $this->render('front/login.html.twig', [
                     'post'=> $post
                 ]);
             }
         }
-        return $this->view->render('login');
+        return $this->render('front/login.html.twig');
+    }
+    public function search(Parameter $post)
+    {
+        $value = $post->get('search');
+        if(!$value) {
+            $this->session->set('error_search', 'Veuillez renseigner des informations dans la zone de recherche');
+            header('Location: ../public/index.php');
+        }
+        $isArticle = $post->get('articles');
+        $articles = [];
+        if($isArticle) {
+            $articles = $this->articleManager->search($value);
+        }
+        return $this->render('front/search.html.twig', [
+            'value' => $value,
+            'articles' => $articles,
+        ]);
     }
 }

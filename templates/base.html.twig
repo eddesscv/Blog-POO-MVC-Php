@@ -1,0 +1,18 @@
+<html lang="fr">
+
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Mon blog -
+			{% block title %}{% endblock %}
+		</title>
+	</head>
+
+	<body>
+		<div id="body_content">
+			<h1>Mon blog</h1>
+			<p>En construction</p> {{ include('_inc/menu.html.twig') }} {{ include('_inc/form_search.html.twig') }}
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+
+</html>

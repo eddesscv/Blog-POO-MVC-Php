@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %}Résultats de recherche
+{% endblock %}
+{% block content %}
+	<h2>Résultats de recherche</h2>
+	<h3>Articles associés à la recherche : {{ value }}</h3>
+	<div id="articles">
+		{% if articles|length > 0 %}
+			{% for article in articles %}
+				<h4>{{ article.title }}</h4>
+				<p>{{ article.content|slice (0, 300) }}</p>
+			{% endfor %}
+		{% else %}
+			<p>Aucun résultat</p>
+		{% endif %}
+	</div>
+{% endblock %}
