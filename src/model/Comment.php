@@ -24,6 +24,10 @@ class Comment
      * @var bool
      */
     private $flag;
+     /**
+     * @var bool
+     */
+    private $validComment;
     /**
      * @return int
      */
@@ -93,5 +97,19 @@ class Comment
     public function setFlag($flag)
     {
         $this->flag = $flag;
+    }
+    /**
+     * @return bool
+     */
+    public function isValidComment()
+    {
+        return $this->validComment;
+    }
+    /**
+     * @param bool $validComment
+     */
+    public function setValidComment($validComment)
+    {
+        $this->$validComment = $validComment;
     }
 }

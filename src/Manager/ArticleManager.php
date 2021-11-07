@@ -12,9 +12,11 @@ class ArticleManager extends Manager
         $article = new Article();
         $article->setId($row['id']);
         $article->setTitle($row['title']);
+        $article->setChapo($row['chapo']);
         $article->setContent($row['content']);
         $article->setAuthor($row['pseudo']);
         $article->setCreatedAt($row['createdAt']);
+        $article->setUpdatedAt($row['updatedAt']);
         return $article;
     }
     public function total()
@@ -24,13 +26,13 @@ class ArticleManager extends Manager
     }
     public function getArticles($limit = null, $start = null)
     {
-        $sql = 'SELECT article.id, article.title, article.content, user.pseudo, article.createdAt FROM article INNER JOIN user ON article.user_id = user.id ORDER BY article.id DESC';
-        if($limit) {
-            $sql .= ' LIMIT '.$limit.' OFFSET '.$start;
+        $sql = 'SELECT article.id, article.title, article.chapo, article.content, user.pseudo, article.createdAt, article.updatedAt FROM article INNER JOIN user ON article.user_id = user.id ORDER BY article.id DESC';
+        if ($limit) {
+            $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $start;
         }
         $result = $this->createQuery($sql);
         $articles = [];
-        foreach ($result as $row){
+        foreach ($result as $row) {
             $articleId = $row['id'];
             $articles[$articleId] = $this->buildObject($row);
         }
@@ -39,7 +41,7 @@ class ArticleManager extends Manager
     }
     public function getArticle($articleId)
     {
-        $sql = 'SELECT article.id, article.title, article.content, user.pseudo, article.createdAt FROM article INNER JOIN user ON article.user_id = user.id WHERE article.id = ?';
+        $sql = 'SELECT article.id, article.title, article.chapo, article.content, user.pseudo, article.createdAt, article.updatedAt FROM article INNER JOIN user ON article.user_id = user.id WHERE article.id = ?';
         $result = $this->createQuery($sql, [$articleId]);
         $article = $result->fetch();
         $result->closeCursor();
@@ -48,14 +50,15 @@ class ArticleManager extends Manager
     public function addArticle(Parameter $post, $userId)
     {
         //Permet de récupérer les variables $title et $content
-        $sql = 'INSERT INTO article (title, content, createdAt, user_id) VALUES (?, ?, NOW(), ?)';
-        $this->createQuery($sql, [$post->get('title'), $post->get('content'), $userId]);
+        $sql = 'INSERT INTO article (title, chapo, content, createdAt, user_id) VALUES (?, ?, ?, NOW(), ?)';
+        $this->createQuery($sql, [$post->get('title'), $post->get('chapo'), $post->get('content'), $userId]);
     }
     public function editArticle(Parameter $post, $articleId, $userId)
     {
-        $sql = 'UPDATE article SET title=:title, content=:content, user_id=:userId WHERE id=:articleId';
+        $sql = 'UPDATE article SET title=:title, chapo=:chapo, content=:content, updatedAt=NOW(), user_id=:userId WHERE id=:articleId';
         $this->createQuery($sql, [
             'title' => $post->get('title'),
+            'chapo' => $post->get('chapo'),
             'content' => $post->get('content'),
             'userId' => $userId,
             'articleId' => $articleId
@@ -71,7 +74,7 @@ class ArticleManager extends Manager
     public function search($value)
     {
         $sql = '
-            SELECT article.id, article.title, article.content, user.pseudo, article.createdAt
+            SELECT article.id, article.chapo, article.title, article.content, user.pseudo, article.createdAt
             FROM article
             INNER JOIN user
             ON article.user_id = user.id
@@ -80,9 +83,9 @@ class ArticleManager extends Manager
             OR article.content
             LIKE ?
             ORDER BY article.id DESC';
-        $result = $this->createQuery($sql, ['%'.$value.'%', '%'.$value.'%']);
+        $result = $this->createQuery($sql, ['%' . $value . '%', '%' . $value . '%']);
         $articles = [];
-        foreach ($result as $row){
+        foreach ($result as $row) {
             $articleId = $row['id'];
             $articles[$articleId] = $this->buildObject($row);
         }

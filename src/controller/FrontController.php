@@ -15,6 +15,15 @@ class FrontController extends Controller
             'pagination' => $pagination,
         ]);
     }
+    public function blog()
+    {
+        $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->articleManager->total());
+        $articles = $this->articleManager->getArticles($pagination->getLimit(), $this->pagination->getStart());
+        return $this->render('front/blog.html.twig', [
+            'articles' => $articles,
+            'pagination' => $pagination,
+        ]);
+    }
     public function article($articleId)
     {
         $article = $this->articleManager->getArticle($articleId);
@@ -32,7 +41,7 @@ class FrontController extends Controller
             $errors = $this->validation->validate($post, 'Comment');
             if (!$errors) {
                 $this->commentManager->addComment($post, $articleId);
-                $this->session->set('add_comment', 'Le nouveau commentaire a bien été ajouté');
+                $this->session->set('add_comment', 'Le nouveau commentaire a bien été envoyer... En attente de validation');
                 header('Location: ../public/index.php');
             }
             $article = $this->articleManager->getArticle($articleId);

@@ -30,8 +30,9 @@ class BackController extends Controller
         if ($this->checkAdmin()) {
             $articles = $this->articleManager->getArticles();
             $comments = $this->commentManager->getFlagComments();
+            $comments = $this->commentManager->getUnValidComments();
             $users = $this->userManager->getUsers();
-            return $this->view->render('back/administration.html.twig', [
+            return $this->render('back/administration.html.twig', [
                 'articles' => $articles,
                 'comments' => $comments,
                 'users' => $users,
@@ -48,12 +49,12 @@ class BackController extends Controller
                     $this->session->set('add_article', 'Le nouvel article a bien été ajouté');
                     header('Location: ../public/index.php?url=administration');
                 }
-                return $this->view->render('back/add_article.html.twig', [
+                return $this->render('back/add_article.html.twig', [
                     'post' => $post,
                     'errors' => $errors
                 ]);
             }
-            return $this->view->render('back/add_article.html.twig', [
+            return $this->render('back/add_article.html.twig', [
                 'post' => $post
             ]);
         }
@@ -69,16 +70,17 @@ class BackController extends Controller
                     $this->session->set('edit_article', 'L\'article a bien été modifié');
                     header('Location: ../public/index.php?url=administration');
                 }
-                return $this->view->render('back/edit_article.html.twig', [
+                return $this->render('back/edit_article.html.twig', [
                     'post' => $post,
                     'errors' => $errors
                 ]);
             }
             $post->set('id', $article->getId());
             $post->set('title', $article->getTitle());
+            $post->set('chapo', $article->getChapo());
             $post->set('content', $article->getContent());
             $post->set('author', $article->getAuthor());
-            return $this->view->render('back/edit_article.html.twig', [
+            return $this->render('back/edit_article.html.twig', [
                 'post' => $post
             ]);
         }
@@ -110,7 +112,7 @@ class BackController extends Controller
     public function profile()
     {
         if ($this->checkLoggedIn()) {
-            return $this->view->render('back/profile.html.twig');
+            return $this->render('back/profile.html.twig');
         }
     }
     public function updatePassword(Parameter $post)
@@ -121,7 +123,7 @@ class BackController extends Controller
                 $this->session->set('update_password', 'Le mot de passe a été mis à jour');
                 header('Location: ../public/index.php?url=profile');
             }
-            return $this->view->render('back/update_password.html.twig');
+            return $this->render('back/update_password.html.twig');
         }
     }
     public function logout()
@@ -153,6 +155,15 @@ class BackController extends Controller
         if($this->checkAdmin()) {
             $this->userManager->deleteUser($userId);
             $this->session->set('delete_user', 'L\'utilisateur a bien été supprimé');
+            header('Location: ../public/index.php?url=administration');
+        }
+    }
+
+    public function validComment($commentId)
+    {
+        if ($this->checkAdmin()) {
+            $this->commentManager->validComment($commentId);
+            $this->session->set('valid_comment', 'Le commentaire a bien été approuvé');
             header('Location: ../public/index.php?url=administration');
         }
     }

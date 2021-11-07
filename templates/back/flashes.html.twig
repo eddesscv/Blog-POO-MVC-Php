@@ -1,6 +1,35 @@
-{{ session.show('add_article') }}
-{{ session.show('edit_article') }}
-{{ session.show('delete_article') }}
-{{ session.show('unflag_comment') }}
-{{ session.show('delete_comment') }}
-{{ session.show('delete_user') }}
+{% if session.get('add_article') %}
+    <div class="alert alert-success">
+        {{ session.show('add_article') }}
+    </div>
+{% endif %}
+{% if session.get('edit_article') %}
+    <div class="alert alert-warning">
+        {{ session.show('edit_article') }}
+    </div>
+{% endif %}
+{% if session.get('delete_article') %}
+    <div class="alert alert-danger">
+        {{ session.show('delete_article') }}
+    </div>
+{% endif %}
+{% if session.get('unflag_comment') %}
+    <div class="alert alert-success">
+        {{ session.show('unflag_comment') }}
+    </div>
+{% endif %}
+{% if session.get('delete_comment') %}
+    <div class="alert alert-danger">
+        {{ session.show('delete_comment') }}
+    </div>
+{% endif %}
+{% if session.get('delete_user') %}
+    <div class="alert alert-danger">
+        {{ session.show('delete_user') }}
+    </div>
+{% endif %}
+{% if session.get('valid_comment') %}
+    <div class="alert alert-success">
+        {{ session.show('valid_comment') }}
+    </div>
+{% endif %}

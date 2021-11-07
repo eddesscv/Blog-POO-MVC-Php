@@ -1,7 +1,35 @@
-{{ session.show('add_comment') }} 
-{{ session.show('flag_comment') }} 
-{{ session.show('register') }} 
-{{ session.show('login') }} 
-{{ session.show('logout') }} 
-{{ session.show('delete_account') }} 
-{{ session.show('error_search') }}
+{% if session.get('add_comment') %}
+    <div class="alert alert-success">
+        {{ session.show('add_comment') }}
+    </div>
+{% endif %}
+{% if session.get('flag_comment') %}
+    <div class="alert alert-warning">
+        {{ session.show('flag_comment') }}
+    </div>
+{% endif %}
+{% if session.get('register') %}
+    <div class="alert alert-success">
+        {{ session.show('register') }}
+    </div>
+{% endif %}
+{% if session.get('login') %}
+    <div class="alert alert-success">
+        {{ session.show('login') }}
+    </div>
+{% endif %}
+{% if session.get('logout') %}
+    <div class="alert alert-warning">
+        {{ session.show('logout') }}
+    </div>
+{% endif %}
+{% if session.get('login') %}
+    <div class="alert alert-success">
+        {{ session.show('delete_account') }}
+    </div>
+{% endif %}
+{% if session.get('error_search') %}
+    <div class="alert alert-warning">
+        {{ session.show('error_search') }}
+    </div>
+{% endif %}

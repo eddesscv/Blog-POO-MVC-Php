@@ -2,76 +2,118 @@
 {% block title %}Administration{% endblock %}
 {% block content %}
 {{ include('back/flashes.html.twig') }}
-<h2>Articles</h2>
-<a href="../public/index.php?url=addArticle">Nouvel article</a>
-<table>
-    <tr>
-        <td>Id</td>
-        <td>Titre</td>
-        <td>Contenu</td>
-        <td>Auteur</td>
-        <td>Date</td>
-        <td>Actions</td>
-    </tr>
-    {% for article in articles %}
-        <tr>
-            <td>{{ article.id }}</td>
-            <td><a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.title }}</a></td>
-            <td>{{ article.content|slice(0, 150) }}</td>
-            <td>{{ article.author }}</td>
-            <td>Créé le : {{ article.createdAt }}</td>
-            <td>
-                <a href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
-                <a href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
-            </td>
-        </tr>
-    {% endfor %}
-</table>
-<h2>Commentaires signalés</h2>
-<table>
-    <tr>
-        <td>Id</td>
-        <td>Pseudo</td>
-        <td>Message</td>
-        <td>Date</td>
-        <td>Actions</td>
-    </tr>
-    {% for comment in comments %}
-        <tr>
-            <td>{{ comment.id }}</td>
-            <td>{{ comment.pseudo }}</td>
-            <td>{{ comment.content|slice(0, 150) }}</td>
-            <td>Créé le : {{ comment.createdAt }}</td>
-            <td>
-                <a href="../public/index.php?url=unflagComment&commentId={{ comment.id }}">Désignaler le commentaire</a>
-                <a href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer le commentaire</a>
-            </td>
-        </tr>
-    {% endfor %}
-</table>
-<h2>Utilisateurs</h2>
-<table>
-    <tr>
-        <td>Id</td>
-        <td>Pseudo</td>
-        <td>Date</td>
-        <td>Rôle</td>
-        <td>Actions</td>
-    </tr>
-    {% for user in users %}
-        <tr>
-            <td>{{ user.id }}</td>
-            <td>{{ user.pseudo }}</td>
-            <td>Créé le : {{ user.createdAt }}</td>
-            <td>{{ user.role }}</td>
-            <td>
-                {% if user.role is not same as('admin') %}
-                    <a href="../public/index.php?url=deleteUser&userId={{ user.id }}">Supprimer</a>
-                {% else %}
-                    <p>Suppression impossible</p>
-                {% endif %}
-            </td>
-        </tr>
-    {% endfor %}
-</table>
+<a class="btn btn-success" href="../public/index.php?url=addArticle">Nouvel article</a>
+<br><br>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="home" aria-selected="true">Articles</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="profile" aria-selected="false">Commentaires signalés</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="val_comment-tab" data-toggle="tab" href="#val_comment" role="tab" aria-controls="profile" aria-selected="false">Commentaires à valider</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="contact" aria-selected="false">Utilisateurs</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="article" role="tabpanel" aria-labelledby="article-tab">
+        <table class="table table-bordered">
+            <tr>
+                <td>Id</td>
+                <td>Titre</td>
+                <td>Contenu</td>
+                <td>Auteur</td>
+                <td>Date</td>
+                <td>Actions</td>
+            </tr>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.id }}</td>
+                    <td><a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.title }}</a></td>
+                    <td>{{ article.content|slice(0, 150) }}</td>
+                    <td>{{ article.author }}</td>
+                    <td>Créé le : {{ article.createdAt }}</td>
+                    <td>
+                        <a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
+                        <a class="btn btn-danger" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
+        <table class="table table-bordered">
+            <tr>
+                <td>Id</td>
+                <td>Pseudo</td>
+                <td>Message</td>
+                <td>Date</td>
+                <td>Actions</td>
+            </tr>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.id }}</td>
+                    <td>{{ comment.pseudo }}</td>
+                    <td>{{ comment.content|slice(0, 150) }}</td>
+                    <td>Créé le : {{ comment.createdAt }}</td>
+                    <td>
+                        <a class="btn btn-warning" href="../public/index.php?url=unflagComment&commentId={{ comment.id }}">Désignaler le commentaire</a>
+                        <a class="btn btn-danger" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer le commentaire</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="tab-pane fade" id="val_comment" role="tabpanel" aria-labelledby="val_comment-tab">
+        <table class="table table-bordered">
+            <tr>
+                <td>Id</td>
+                <td>Pseudo</td>
+                <td>Message</td>
+                <td>Date</td>
+                <td>Actions</td>
+            </tr>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.id }}</td>
+                    <td>{{ comment.pseudo }}</td>
+                    <td>{{ comment.content|slice(0, 150) }}</td>
+                    <td>Créé le : {{ comment.createdAt }}</td>
+                    <td>
+                        <a class="btn btn-warning" href="../public/index.php?url=validComment&commentId={{ comment.id }}">Valider le commentaire</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
+        <table class="table table-bordered">
+            <tr>
+                <td>Id</td>
+                <td>Pseudo</td>
+                <td>Date</td>
+                <td>Rôle</td>
+                <td>Actions</td>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.pseudo }}</td>
+                    <td>Créé le : {{ user.createdAt }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        {% if user.role is not same as('admin') %}
+                            <a class="btn btn-danger" href="../public/index.php?url=deleteUser&userId={{ user.id }}">Supprimer</a>
+                        {% else %}
+                            <p>Suppression impossible</p>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
 {% endblock %}

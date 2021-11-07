@@ -1,43 +1,299 @@
 {% extends 'base.html.twig' %}
-{% block title %}{{ article.title }}{% endblock %}
+{% block title %} {{ article.title }}
+{% endblock %}
 {% block content %}
-    <h2>{{ article.title }}</h2>
-    <p>{{ article.content }}</p>
-    <p>{{ article.author }}</p>
-    <p>Créé le : {{ article.createdAt }}</p>
-    <br>
-    {% if session.get('role') is same as('admin') %}
-        <div class="actions">
-            <a href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
-            <a href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
-        </div>
-        <br>
-    {% endif %}
-    <a href="../public/index.php">Retour à l'accueil</a>
-    <div id="comments" class="text-left" style="margin-left: 50px">
-        <h3>Ajouter un commentaire</h3>
-        {{ include('front/form_comment.html.twig') }}
-        <h3>Commentaires</h3>
-        {% if comments|length > 0 %}
-            {% for comment in comments %}
-                <h4>{{ comment.pseudo }}</h4>
-                <p>{{ comment.content }}</p>
-                <p>Posté le {{ comment.createdAt }}</p>
-                {% if comment.flag %}
-                    <p>Ce commentaire a déjà été signalé</p>
-                {% else %}
-                    <p><a href="../public/index.php?url=flagComment&commentId={{ comment.id }}">Signaler le commentaire</a></p>
-                {% endif %}
-                {% if session.get('role') is same as('admin') %}
-                    <p><a href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer le commentaire</a></p>
-                {% endif %}
-                <br>
-            {% endfor %}
-            {{ include('front/pagination.html.twig', {
+	<section class="post-area section">
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-lg-8 col-md-12 no-right-padding">
+
+					<div class="main-post">
+
+						<div class="blog-post-inner">
+
+							<div class="post-info">
+
+								<div class="left-area">
+									<a class="avatar" href="#"><img src="../public/images/avatar-1-120x120.jpg" alt="Profile Image"></a>
+								</div>
+
+								<div class="middle-area">
+									<a class="name" href="#">
+										<b>{{ article.author }}</b>
+									</a>
+									<h6 class="date">
+										Creé: le {{ article.createdAt }} | Modifié le: {{ article.updatedAt }}</h6>
+								</div>
+
+							</div>
+							<!-- post-info -->
+
+							<h3 class="title">
+									<b>{{ article.title }}</b>
+							</h3>
+
+							<h4 class="title"><b>{{ article.chapo }}</b></h4>
+
+							<p class="para">{{ article.content }}</p>
+
+
+							<ul class="tags">
+
+								<br>
+								{% if session.get('role') is same as('admin') %}
+									<div class="actions">
+										<a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
+										<a class="btn btn-danger" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
+									</div>
+									<br>
+								{% endif %}
+							</ul>
+						</div>
+						<!-- blog-post-inner -->
+
+						<div class="post-icons-area">
+							<ul class="post-icons">
+								<li>
+									<a href="#">
+										<i class="ion-heart"></i>57</a>
+								</li>
+								<li>
+									<a href="#commentaire">
+										<i class="ion-chatbubble"></i> {{comments|length }}</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="ion-eye"></i>138</a>
+								</li>
+							</ul>
+
+							<ul class="icons">
+								<li>SHARE :
+								</li>
+								<li>
+									<a href="#">
+										<i class="ion-social-facebook"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="ion-social-twitter"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<i class="ion-social-pinterest"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+
+
+						<div class="post-footer post-info">
+
+							<div class="container">
+								<h4>
+									<b>COMMENTER</b>
+								</h4>
+
+								<div class="comment-form"> {{ include('front/form_comment.html.twig') }}
+								</div>
+								<!-- comment-form -->
+
+								<h4>
+									<b id="commentaire">COMMENTAIRES ({{ comments|length }})</b>
+								</h4>
+
+								<div class="commnets-area">
+								{% if comment.activatedComment == true %}
+									{% if comments|length > 0 %}
+										{% for comment in comments %}
+											<div class="comment">
+
+												<div class="post-info">
+
+													<div class="left-area">
+														<a class="avatar" href="#"><img src="../public/images/avatar-1-120x120.jpg" alt="Profile Image"></a>
+													</div>
+
+													<div class="middle-area">
+														<a class="name" href="#">
+															<b>{{ comment.pseudo }}</b>
+														</a>
+														<h6 class="date">le {{ comment.createdAt }}</h6>
+													</div>
+
+													<div class="right-area">
+														<h5 class="reply-btn">
+															{% if comment.flag %}
+																<p>Ce commentaire a déjà été signalé</p>
+															{% else %}
+																<p>
+																	<a class="btn btn-warning" href="../public/index.php?url=flagComment&commentId={{ comment.id }}">Signaler</a>
+																</p>
+															{% endif %}
+														</h5>
+													</div>
+
+													<div class="right-area">
+														<h5 class="reply-btn">
+															{% if session.get('role') is same as('admin') %}
+																<p>
+																	<a class="btn btn-danger" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer</a>
+																</p>
+															{% endif %}
+														</h5>
+													</div>
+
+												</div>
+												<!-- post-info -->
+
+												<p>{{ comment.content }}</p>
+
+											</div>
+											<br>
+										{% endfor %} {{ include('front/pagination.html.twig', {
                 url: 'url=article&articleId=' ~ article.id ~ '&'
             }) }}
-        {% else %}
-            <p>Aucun commentaire pour le moment</p>
-        {% endif %}
-    </div>
+									{% else %}
+										<p class="alert alert-warning">Aucun commentaire pour le moment</p>
+									{% endif %}
+									{% endif %}
+
+								</div>
+								<!-- commnets-area -->
+
+
+							</div>
+							<!-- container -->
+
+						</div>
+						<!-- post-info -->
+
+
+					</div>
+					<!-- main-post -->
+				</div>
+				<!-- col-lg-8 col-md-12 -->
+
+				<div class="col-lg-4 col-md-12 no-left-padding">
+
+					<div class="single-post info-area">
+
+						<div class="sidebar-area about-area">
+							<h4 class="title">
+								<b>ABOUT BONA</b>
+							</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+																																																																																																																              ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
+																																																																																																																              Ut enim ad minim veniam</p>
+						</div>
+
+						<div class="sidebar-area subscribe-area">
+
+							<h4 class="title">
+								<b>SUBSCRIBE</b>
+							</h4>
+							<div class="input-area">
+								<form>
+									<input class="email-input" type="text" placeholder="Enter your email">
+									<button class="submit-btn" type="submit">
+										<i class="icon ion-ios-email-outline"></i>
+									</button>
+								</form>
+							</div>
+
+						</div>
+						<!-- subscribe-area -->
+
+						<div class="tag-area">
+
+							<h4 class="title">
+								<b>TAG CLOUD</b>
+							</h4>
+							<ul>
+								<li><a href="#">Manual</a></li>
+								<li><a href="#">Liberty</a></li>
+								<li><a href="#">Recomendation</a></li>
+								<li><a href="#">Interpritation</a></li>
+								<li><a href="#">Manual</a></li>
+								<li><a href="#">Liberty</a></li>
+								<li><a href="#">Recomendation</a></li>
+								<li><a href="#">Interpritation</a></li>
+							</ul>
+
+						</div>
+						<!-- subscribe-area -->
+
+					</div>
+					<!-- info-area -->
+
+				</div>
+				<!-- col-lg-4 col-md-12 -->
+
+			</div>
+			<!-- row -->
+
+		</div>
+		<!-- container -->
+	</section>
+	<!-- post-area -->
+
+
+	<section class="recomended-area section">
+		<div class="container">
+			<h3>Vous allez aimer aussi voir</h3>
+			<div class="row">
+
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+						<div class="single-post post-style-1">
+
+							<div class="blog-image"><img src="../public/images/alex-lambley-205711.jpg" alt="Blog Image"></div>
+
+							<a class="avatar" href="#"><img src="../public/images/icons8-team-355979.jpg" alt="Profile Image"></a>
+
+							<div class="blog-info">
+
+								<h4 class="title">
+									<a href="#">
+										<b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
+																																																																																																																																																										              Concepts in Physics?</b>
+									</a>
+								</h4>
+
+								<ul class="post-footer">
+									<li>
+										<a href="#">
+											<i class="ion-heart"></i>57</a>
+									</li>
+									<li>
+										<a href="#">
+											<i class="ion-chatbubble"></i>6</a>
+									</li>
+									<li>
+										<a href="#">
+											<i class="ion-eye"></i>138</a>
+									</li>
+								</ul>
+
+							</div>
+							<!-- blog-info -->
+						</div>
+						<!-- single-post -->
+					</div>
+					<!-- card -->
+				</div>
+				<!-- col-md-6 col-sm-12 -->
+
+			</div>
+			<!-- row -->
+
+		</div>
+		<!-- container -->
+	</section>
+
+
 {% endblock %}

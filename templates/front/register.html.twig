@@ -3,14 +3,27 @@
 {% block content %}
 <div>
     <form method="post" action="../public/index.php?url=register">
-        <label for="pseudo">Pseudo</label><br>
-        <input type="text" id="pseudo" name="pseudo" value="{% if post %}{{ post.get('pseudo') }}{% endif %}"><br>
-        {% if errors.pseudo %}{{ errors.pseudo }}{% endif %}
-        <label for="password">Mot de passe</label><br>
-        <input type="password" id="password" name="password"><br>
-        {% if errors.password %}{{ errors.password }}{% endif %}
-        <input type="submit" value="Inscription" id="submit" name="submit">
+        <div class="form-group">
+            <label for="pseudo">Pseudo</label><br>
+            <input class="form-control" type="text" id="pseudo" name="pseudo" value="{% if post %}{{ post.get('pseudo') }}{% endif %}"><br>
+        </div>
+        {% if errors.pseudo %}
+            <div class="alert alert-warning">
+                {{ errors.pseudo }}
+            </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="password">Mot de passe</label><br>
+            <input class="form-control" type="password" id="password" name="password"><br>
+        </div>
+        {% if errors.password %}
+            <div class="alert alert-warning">
+                {{ errors.password }}
+            </div>
+        {% endif %}
+        <input class="btn btn-secondary" type="submit" value="Inscription" id="submit" name="submit">
     </form>
-    <a href="../public/index.php">Retour à l'accueil</a>
+    <hr>
+    <p class="text-center"><a class="btn btn-secondary" href="../public/index.php">Retour à l'accueil</a></p>
 </div>
 {% endblock %}

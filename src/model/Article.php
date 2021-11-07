@@ -12,6 +12,10 @@ class Article
      * @var string
      */
     private $title;
+     /**
+     * @var string
+     */
+    private $chapo;
     /**
      * @var string
      */
@@ -24,6 +28,11 @@ class Article
      * @var \DateTime
      */
     private $createdAt;
+    /**
+     * /**
+     * @var \DateTime
+     */
+    private $updatedAt;
     /**
      * @return int
      */
@@ -51,6 +60,20 @@ class Article
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+      /**
+     * @return string
+     */
+    public function getChapo()
+    {
+        return $this->chapo;
+    }
+    /**
+     * @param string $chapo
+     */
+    public function setChapo($chapo)
+    {
+        $this->chapo = $chapo;
     }
     /**
      * @return string
@@ -93,5 +116,19 @@ class Article
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+    }
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

@@ -6,22 +6,22 @@ class Constraint
 {
     public function notBlank($name, $value)
     {
-        if (empty($value)) {
-            return '<p>Le champ ' . $name . ' saisi est vide</p>';
+        if(empty($value)) {
+            return 'Le champ '.$name.' saisi est vide';
         }
         return null;
     }
     public function minLength($name, $value, $minSize)
     {
-        if (strlen($value) < $minSize) {
-            return '<p>Le champ ' . $name . ' doit contenir au moins ' . $minSize . ' caractères</p>';
+        if(strlen($value) < $minSize) {
+            return 'Le champ '.$name.' doit contenir au moins '.$minSize.' caractères';
         }
         return null;
     }
     public function maxLength($name, $value, $maxSize)
     {
-        if (strlen($value) > $maxSize) {
-            return '<p>Le champ ' . $name . ' doit contenir au maximum ' . $maxSize . ' caractères</p>';
+        if(strlen($value) > $maxSize) {
+            return 'Le champ '.$name.' doit contenir au maximum '.$maxSize.' caractères';
         }
         return null;
     }

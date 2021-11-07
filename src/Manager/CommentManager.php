@@ -15,6 +15,7 @@ class CommentManager extends Manager
         $comment->setContent($row['content']);
         $comment->setCreatedAt($row['createdAt']);
         $comment->setFlag($row['flag']);
+        $comment->setValidComment($row['validComment']);
         return $comment;
     }
 
@@ -26,7 +27,7 @@ class CommentManager extends Manager
 
     public function getCommentsFromArticle($articleId, $limit = null, $start = null)
     {
-        $sql = 'SELECT id, pseudo, content, createdAt, flag FROM comment WHERE article_id = ? ORDER BY createdAt DESC';
+        $sql = 'SELECT id, pseudo, content, createdAt, flag, validComment FROM comment WHERE article_id = ? ORDER BY createdAt DESC';
         if($limit) {
             $sql .= ' LIMIT '.$limit.' OFFSET '.$start;
         }
@@ -41,8 +42,8 @@ class CommentManager extends Manager
     }
     public function addComment(Parameter $post, $articleId)
     {
-        $sql = 'INSERT INTO comment (pseudo, content, createdAt, flag, article_id) VALUES (?, ?, NOW(), ?, ?)';
-        $this->createQuery($sql, [$post->get('pseudo'), $post->get('content'), 0, $articleId]);
+        $sql = 'INSERT INTO comment (pseudo, content, createdAt, flag, validComment, article_id) VALUES (?, ?, NOW(), ?, ?, ?)';
+        $this->createQuery($sql, [$post->get('pseudo'), $post->get('content'), 0, 0, $articleId]);
     }
     public function flagComment($commentId)
     {
@@ -61,8 +62,26 @@ class CommentManager extends Manager
     }
     public function getFlagComments()
     {
-        $sql = 'SELECT id, pseudo, content, createdAt, flag FROM comment WHERE flag = ? ORDER BY createdAt DESC';
+        $sql = 'SELECT id, pseudo, content, createdAt, flag, validComment FROM comment WHERE flag = ? ORDER BY createdAt DESC';
         $result = $this->createQuery($sql, [1]);
+        $comments = [];
+        foreach ($result as $row) {
+            $commentId = $row['id'];
+            $comments[$commentId] = $this->buildObject($row);
+        }
+        $result->closeCursor();
+        return $comments;
+    }
+
+    public function validComment($commentId)
+    {
+        $sql = 'UPDATE comment SET validComment = ? WHERE id = ?';
+        $this->createQuery($sql, [1, $commentId]);
+    }
+    public function getUnValidComments()
+    {
+        $sql = 'SELECT id, pseudo, content, createdAt, flag, validComment FROM comment WHERE validComment = ? ORDER BY createdAt DESC';
+        $result = $this->createQuery($sql, [0]);
         $comments = [];
         foreach ($result as $row) {
             $commentId = $row['id'];

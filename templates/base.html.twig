@@ -1,18 +1,48 @@
 <html lang="fr">
-
 	<head>
 		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>Mon blog -
 			{% block title %}{% endblock %}
 		</title>
+		{% block stylesheets %}
+			<link
+			rel="icon" type="image/x-icon" href="../public/images/favicon.ico"/>
+
+			<!-- Font -->
+
+			<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+			<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+
+			<!-- Stylesheets -->
+
+			<link rel="stylesheet" type="text/css" href="../public/css/bootstrap.css">
+			<link rel="stylesheet" type="text/css" href="../public/css/ionicons.css">
+			<link rel="stylesheet" type="text/css" href="../public/css/styles.css">
+			<link rel="stylesheet" type="text/css" href="../public/css/responsive.css">
+			<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+
+			<link rel="stylesheet" type="text/css" href="../public/css/css_single/styles.css">
+			<link rel="stylesheet" type="text/css" href="../public/css/css_single/responsive.css">
+		{% endblock %}
 	</head>
-
 	<body>
-		<div id="body_content">
-			<h1>Mon blog</h1>
-			<p>En construction</p> {{ include('_inc/menu.html.twig') }} {{ include('_inc/form_search.html.twig') }}
-			{% block content %}{% endblock %}
+		<div id="body_content"> {{ include('_inc/menu.html.twig') }}
+			<div class="container">
+				<h1 class="text-center mt-4">Mon blog</h1>
+				{% block content %}{% endblock %}
+			</div> {{ include('_inc/footer.html.twig') }}
 		</div>
-	</body>
 
+		{% block javascripts %}
+
+			<script src="../public/js/jquery-3.1.1.min.js"></script>
+			<script src="../public/js/tether.min.js"></script>
+			<script src="../public/js/bootstrap.js"></script>
+			<script src="../public/js/scripts.js"></script>
+
+		{% endblock %}
+	</body>
 </html>

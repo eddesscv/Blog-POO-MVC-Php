@@ -1,0 +1,17 @@
+<nav aria-label="Pagination">
+	<ul class="pagination pagination-sm justify-content-center">
+		{% for page in 1..pagination.pageNumber|number_format %}
+			{% if pagination.page|number_format is same as (page|number_format) %}
+				<li class="page-item active" aria-current="page">
+					<span class="page-link"> {{ page }}
+						<span class="sr-only">(current)</span>
+					</span>
+				</li>
+			{% else %}
+				<li class="page-item">
+					<a class="page-link" href="../public/index.php?{{ url }}page={{ page }}">{{ page }}</a>
+				</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</nav>

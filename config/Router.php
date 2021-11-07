@@ -48,6 +48,9 @@ class Router
                 elseif($url === 'unflagComment'){
                     $this->backController->unflagComment($this->request->getGet()->get('commentId'));
                 }
+                elseif($url === 'validComment'){
+                    $this->backController->validComment($this->request->getGet()->get('commentId'));
+                }
                 elseif($url === 'deleteComment'){
                     $this->backController->deleteComment($this->request->getGet()->get('commentId'));
                 }
@@ -77,6 +80,9 @@ class Router
                 }
                 elseif($url === 'search'){
                     $this->frontController->search($this->request->getPost());
+                }
+                elseif($url === 'blog'){
+                    $this->frontController->blog();
                 }
                 else{
                     $this->errorController->errorNotFound();
