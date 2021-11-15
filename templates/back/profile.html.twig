@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
-{% block title %}Mon profil{% endblock %}
-{% block content %}
-{{ session.show('update_password') }}
-<div>
-    <h2>{{ session.get('pseudo') }}</h2>
-    <p>{{ session.get('id') }}</p>
-    <a class="btn btn-warning" href="../public/index.php?url=updatePassword">Modifier son mot de passe</a>
-    <a class="btn btn-danger" href="../public/index.php?url=deleteAccount">Supprimer mon compte</a>
-</div>
-<br>
-<a class="btn btn-secondary" href="../public/index.php">Retour à l'accueil</a>
+{% block title %}Mon profil
+{% endblock %}
+{% block content %} {{ session.show('update_password') }}
+	<div>
+		<h2>{{ session.get('pseudo') }}</h2>
+		<p>
+			{% if session.get('id') is same as('1') %}
+				Administrateur	</p>
+		{% else %}
+			<p>
+				Éditeur/éditrice
+			</p>
+		{% endif %}
+		<a class="btn btn-warning" href="../public/index.php?url=updatePassword">Modifier son mot de passe</a>
+		<a class="btn btn-danger" href="../public/index.php?url=deleteAccount">Supprimer mon compte</a>
+	</div>
+	<br>
+	<a class="btn btn-secondary" href="../public/index.php">Retour à l'accueil</a>
 {% endblock %}

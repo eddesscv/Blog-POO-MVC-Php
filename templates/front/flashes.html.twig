@@ -8,6 +8,11 @@
         {{ session.show('flag_comment') }}
     </div>
 {% endif %}
+{% if session.get('valid_comment') %}
+    <div class="alert alert-warning">
+        {{ session.show('valid_comment') }}
+    </div>
+{% endif %}
 {% if session.get('register') %}
     <div class="alert alert-success">
         {{ session.show('register') }}

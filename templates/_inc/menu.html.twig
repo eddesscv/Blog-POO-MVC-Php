@@ -21,6 +21,11 @@
 				<li>
 					<a href="../public/index.php?url=profile">Profil</a>
 				</li>
+				{% if session.get('role') is same as('user') %}
+					<li>
+						<a href="../public/index.php?url=administration">Administration</a>
+					</li>
+				{% endif %}
 				{% if session.get('role') is same as('admin') %}
 					<li>
 						<a href="../public/index.php?url=administration">Administration</a>
@@ -43,7 +48,7 @@
 					<i class="ion-ios-search-strong"></i>
 				</button>
 				<input class="src-input" type="text" placeholder="Rechercher" id="search" name="search">
-                
+
 
 				<div class="form-check">
 					<input class="form-check-input hideSearch" type="checkbox" id="articles" name="articles" checked>
@@ -51,13 +56,13 @@
 						Articles
 					</label>
 				</div>
-                <!--
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" id="comments" name="comments">
-					<label class="form-check-label" for="comments">
-						Commentaires
-					</label>
-				</div>-->
+				<!--
+																<div class="form-check">
+																	<input class="form-check-input" type="checkbox" id="comments" name="comments">
+																	<label class="form-check-label" for="comments">
+																		Commentaires
+																	</label>
+																</div>-->
 			</form>
 
 		</div>

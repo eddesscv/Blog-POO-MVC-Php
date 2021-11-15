@@ -1,119 +1,198 @@
 {% extends 'base.html.twig' %}
-{% block title %}Administration{% endblock %}
-{% block content %}
-{{ include('back/flashes.html.twig') }}
-<a class="btn btn-success" href="../public/index.php?url=addArticle">Nouvel article</a>
-<br><br>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="home" aria-selected="true">Articles</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="profile" aria-selected="false">Commentaires signalés</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="val_comment-tab" data-toggle="tab" href="#val_comment" role="tab" aria-controls="profile" aria-selected="false">Commentaires à valider</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="contact" aria-selected="false">Utilisateurs</a>
-    </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="article" role="tabpanel" aria-labelledby="article-tab">
-        <table class="table table-bordered">
-            <tr>
-                <td>Id</td>
-                <td>Titre</td>
-                <td>Contenu</td>
-                <td>Auteur</td>
-                <td>Date</td>
-                <td>Actions</td>
-            </tr>
-            {% for article in articles %}
-                <tr>
-                    <td>{{ article.id }}</td>
-                    <td><a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.title }}</a></td>
-                    <td>{{ article.content|slice(0, 150) }}</td>
-                    <td>{{ article.author }}</td>
-                    <td>Créé le : {{ article.createdAt }}</td>
-                    <td>
-                        <a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
-                        <a class="btn btn-danger" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <div class="tab-pane fade" id="comment" role="tabpanel" aria-labelledby="comment-tab">
-        <table class="table table-bordered">
-            <tr>
-                <td>Id</td>
-                <td>Pseudo</td>
-                <td>Message</td>
-                <td>Date</td>
-                <td>Actions</td>
-            </tr>
-            {% for comment in comments %}
-                <tr>
-                    <td>{{ comment.id }}</td>
-                    <td>{{ comment.pseudo }}</td>
-                    <td>{{ comment.content|slice(0, 150) }}</td>
-                    <td>Créé le : {{ comment.createdAt }}</td>
-                    <td>
-                        <a class="btn btn-warning" href="../public/index.php?url=unflagComment&commentId={{ comment.id }}">Désignaler le commentaire</a>
-                        <a class="btn btn-danger" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer le commentaire</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <div class="tab-pane fade" id="val_comment" role="tabpanel" aria-labelledby="val_comment-tab">
-        <table class="table table-bordered">
-            <tr>
-                <td>Id</td>
-                <td>Pseudo</td>
-                <td>Message</td>
-                <td>Date</td>
-                <td>Actions</td>
-            </tr>
-            {% for comment in comments %}
-                <tr>
-                    <td>{{ comment.id }}</td>
-                    <td>{{ comment.pseudo }}</td>
-                    <td>{{ comment.content|slice(0, 150) }}</td>
-                    <td>Créé le : {{ comment.createdAt }}</td>
-                    <td>
-                        <a class="btn btn-warning" href="../public/index.php?url=validComment&commentId={{ comment.id }}">Valider le commentaire</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
-        <table class="table table-bordered">
-            <tr>
-                <td>Id</td>
-                <td>Pseudo</td>
-                <td>Date</td>
-                <td>Rôle</td>
-                <td>Actions</td>
-            </tr>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.pseudo }}</td>
-                    <td>Créé le : {{ user.createdAt }}</td>
-                    <td>{{ user.role }}</td>
-                    <td>
-                        {% if user.role is not same as('admin') %}
-                            <a class="btn btn-danger" href="../public/index.php?url=deleteUser&userId={{ user.id }}">Supprimer</a>
-                        {% else %}
-                            <p>Suppression impossible</p>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-</div>
+{% block title %}Administration
+{% endblock %}
+{% block content %} {{ include('back/flashes.html.twig') }}
+	<a class="btn btn-success" href="../public/index.php?url=addArticle">Nouvel article</a>
+	<br><br>
+	<ul class="nav nav-tabs" id="myTab" role="tablist">
+		<li class="nav-item" role="presentation">
+			<a class="nav-link active" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="home" aria-selected="true">Articles</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="flag_comment-tab" data-toggle="tab" href="#flag_comment" role="tab" aria-controls="profile" aria-selected="false">Commentaires signalés</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="val_comment-tab" data-toggle="tab" href="#val_comment" role="tab" aria-controls="contact" aria-selected="false">Commentaires à valider</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="all_comment-tab" data-toggle="tab" href="#all_comment" role="tab" aria-controls="contact" aria-selected="false">Toutes commentaires validés</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="contact" aria-selected="false">Utilisateurs</a>
+		</li>
+	</ul>
+	<div class="tab-content" id="myTabContent">
+		<div class="tab-pane fade show active" id="article" role="tabpanel" aria-labelledby="article-tab">
+			<table class="table table-bordered">
+				<tr>
+					<td>Id</td>
+					<td>Titre</td>
+					<td>Contenu</td>
+					<td>Auteur</td>
+					<td>Date</td>
+					<td>Actions</td>
+				</tr>
+
+				{% if session.get('id') is same as('1') %}
+					{% for article in allArticles %}
+						<tr>
+							<td>{{ article.id }}</td>
+							<td>
+								<a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.title }}</a>
+							</td>
+							<td>{{ article.content|slice(0, 150) }}</td>
+							<td>{{ article.author }}</td>
+							<td>Créé le : {{ article.createdAt|date('d/m/Y H:m:s') }}</td>
+							<td>
+								<a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
+								<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer cet article ?')) { return false; }" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				{% else %}
+					{% for article in articles %}
+						<tr>
+							<td>{{ article.id }}</td>
+							<td>
+								<a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.title }}</a>
+							</td>
+							<td>{{ article.content|slice(0, 150) }}</td>
+							<td>Moi</td>
+							<td>Créé le : {{ article.createdAt|date('d/m/Y H:m:s') }}</td>
+							<td>
+								<a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
+								<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer cet article ?')) { return false; }" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+
+
+			</table>
+		</div>
+		<div class="tab-pane fade" id="flag_comment" role="tabpanel" aria-labelledby="comment-tab">
+			<table class="table table-bordered">
+				<tr>
+					<td>Id</td>
+					<td>Pseudo</td>
+					<td>Message</td>
+					<td>Date</td>
+					<td>Actions</td>
+				</tr>
+				{% for flagComment in flagComments %}
+					<tr>
+						<td>{{ flagComment.id }}</td>
+						<td>{{ flagComment.pseudo }}</td>
+						<td>{{ flagComment.content|slice(0, 150) }}</td>
+						<td>Créé le : {{ flagComment.createdAt|date('d/m/Y H:m:s') }}</td>
+						<td>
+							<a class="btn btn-warning" href="../public/index.php?url=unflagComment&commentId={{ flagComment.id }}">Désignaler le commentaire</a>
+							<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer ce commentaire ?')) { return false; }" href="../public/index.php?url=deleteComment&commentId={{ flagComment.id }}">Supprimer le commentaire</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+		<div class="tab-pane fade" id="val_comment" role="tabpanel" aria-labelledby="val_comment-tab">
+			<table class="table table-bordered">
+				<tr>
+					<td>Id</td>
+					<td>Pseudo</td>
+					<td>Message</td>
+					<td>Titre article</td>
+					<td>Date</td>
+					<td>Actions</td>
+				</tr>
+
+				{% for comment in unValComments %}
+					<tr>
+						<td>{{ comment.id }}</td>
+						<td>{{ comment.pseudo }}</td>
+						<td>{{ comment.content|slice(0, 150) }}</td>
+						<td>{{ comment.article_id }}</td>
+						<td>Créé le : {{ comment.createdAt|date('d/m/Y H:m:s') }}</td>
+						<td>
+							<a class="btn btn-warning" href="../public/index.php?url=validComment&commentId={{ comment.id }}">Valider le commentaire</a>
+						</td>
+					</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+		<div class="tab-pane fade" id="all_comment" role="tabpanel" aria-labelledby="alll_comment-tab">
+			<table class="table table-bordered">
+				<tr>
+					<td>Id</td>
+					<td>Pseudo</td>
+					<td>Message</td>
+					<td>Date</td>
+					<td>Actions</td>
+				</tr>
+				{% if session.get('id') is same as('1') %}
+					{% for comment in allValComments %}
+
+						<tr>
+							<td>{{ comment.id }}</td>
+							<td>{{ comment.pseudo }}</td>
+							<td>{{ comment.content|slice(0, 150) }}</td>
+							<td>Créé le : {{ comment.createdAt|date('d/m/Y H:m:s') }}</td>
+							<td>
+								<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer ce commentaire ?')) { return false; }" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer le commentaire</a>
+							</td>
+						</tr>
+					{% endfor %}
+				{% else %}
+					{% for comment in valComments %}
+
+						<tr>
+							<td>{{ comment.id }}</td>
+							<td>{{ comment.pseudo }}</td>
+							<td>{{ comment.content|slice(0, 150) }}</td>
+							<td>Créé le : {{ comment.createdAt|date('d/m/Y H:m:s') }}</td>
+							<td>
+								<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer ce commentaire ?')) { return false; }" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer le commentaire</a>
+							</td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+
+			</table>
+		</div>
+		<div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
+			{% if session.get('id') is same as('1') %}
+				<table class="table table-bordered">
+					<tr>
+						<td>Id</td>
+						<td>Pseudo</td>
+						<td>Date</td>
+						<td>Rôle</td>
+						<td>Actions</td>
+					</tr>
+					{% for user in users %}
+						<tr>
+							<td>{{ user.id }}</td>
+							<td>{{ user.pseudo }}</td>
+							<td>Créé le : {{ user.createdAt|date('d/m/Y H:m:s') }}</td>
+							<td>{% if user.id is same as('1') %}
+									Administrateur
+								{% else %}
+									Éditeur/éditrice
+								{% endif %}</td>
+							<td>
+								{% if user.id is not same as('1') %}
+									<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer cet utilisateur ?')) { return false; }" href="../public/index.php?url=deleteUser&userId={{ user.id }}">
+										<i class="ion-ios-trash-outline" title="Supprimer"></i>
+									</a>
+								{% else %}
+									<p>Suppression impossible</p>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			{% else %}
+				<p>Vous n'avez pas le droit d'accéder à cette page</p>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}

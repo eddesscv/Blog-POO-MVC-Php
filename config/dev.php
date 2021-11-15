@@ -1,6 +1,6 @@
 <?php
 
-//Less constantes
+//Les constantes
 const HOST = 'localhost';
 const DB_NAME = 'blog';
 const CHARSET = 'utf8';

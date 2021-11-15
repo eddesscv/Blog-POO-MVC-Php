@@ -5,11 +5,20 @@
         <label for="title">Titre</label><br>
         <input class="form-control" type="text" id="title" name="title" value="{% if post %}{{ post.get('title') }}{% endif %}"><br>
     </div>
+    {% if errors.imgUrl %}
+        <div class="alert alert-danger">
+            {{ errors.imgUrl }}
+        </div>
+    {% endif %}
+    <div class="form-group">
+        <label for="title">Image article (url)</label><br>
+        <input class="form-control" type="text" id="imgUrl" name="imgUrl" value="{% if post %}{{ post.get('imgUrl') }}{% endif %}"><br>
+    </div>
     {% if errors.title %}
         <div class="alert alert-danger">
             {{ errors.title }}
         </div>
-    {% endif %}
+    {% endif %}    
     <div class="form-group">
         <label for="content">Chapô</label><br>
         <textarea class="form-control" id="chapo" name="chapo">{% if post %}{{ post.get('chapo') }}{% endif %}</textarea><br>

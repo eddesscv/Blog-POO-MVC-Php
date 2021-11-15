@@ -84,6 +84,9 @@ class Router
                 elseif($url === 'blog'){
                     $this->frontController->blog();
                 }
+                elseif($url === 'contact'){
+                    $this->frontController->contact();
+                }
                 else{
                     $this->errorController->errorNotFound();
                 }

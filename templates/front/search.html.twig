@@ -16,12 +16,12 @@
         <div class="tab-pane fade show active" id="article" role="tabpanel" aria-labelledby="article-tab">
             {% if articles|length > 0 %}
                 {% for article in articles %}
-                    <a href="../public/index.php?url=article&articleId={{ article.id }}"><h4>{{ article.title }}</h4></a>
+                    <a href="../public/index.php?url=article&articleId={{ article.id }}"><h4><b>{{ article.title }}</b></h4></a>
                     <p>{{ article.content|slice (0, 300) }} <a href="../public/index.php?url=article&articleId={{ article.id }}"> ... Lire plus</a></p> 
                     <hr>
                 {% endfor %}
             {% else %}
-                <p>Aucun résultat</p>
+                <p>Désolé, aucun résultat ne correspond à vos critères de recherche. Veuillez essayer à nouveau avec des mots clés différents.</p>
             {% endif %}
         </div>
     </div>

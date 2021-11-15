@@ -5,53 +5,60 @@
 
 
 	<section class="blog-area section">
-			<div class="row">
-				{% for article in articles %}
-					<div class="col-lg-4 col-md-6">
-						<div class="card h-100">
-							<div class="single-post post-style-1">
+		<div class="row">
+			{% for article in articles %}
+				<div class="col-lg-4 col-md-6">
+					<div class="card h-100">
+						<div class="single-post post-style-1">
 
-								<div class="blog-image"><img src="../public/images/marion-michele-330691.jpg" alt="Blog Image"></div>
+							<div class="blog-image"><img src={{ article.imgUrl }} alt="{{ article.title }}"></div>
 
-								<a class="avatar" href="#"><img src="../public/images/icons8-team-355979.jpg" alt="Profile Image"></a>
+							<a class="avatar"><img src="../public/images/blog_img.jpg" alt="Profile Image"></a>
 
-								<div class="blog-info">
+							<div class="blog-info">
 
-									<h4 class="title">
+								<h4 class="title">
+									<a href="../public/index.php?url=article&articleId={{ article.id }}">
+										<b>{{ article.title }}</b>
+									</a>
+								</h4>
+								<h5 class="title">
+									<a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.chapo|slice(0, 250) }}
+										...</a>
+								</h5>
+
+								<ul class="post-footer">
+									<li>
+										{% if article.updatedAt is not same as('NULL') %}
+											<a>
+												<i class="ion-clock"></i> {{article.updatedAt|date('d/m/Y')}}</a>
+										{% else %}
+											<a>
+												<i class="ion-clock"></i> {{article.createdAt|date('d/m/Y')}}</a>
+										{% endif %}
+									</li>
+									<li>
+										<a>
+											<i class="ion-person"></i> {{article.author}}</a>
+									</li>
+									<li>
 										<a href="../public/index.php?url=article&articleId={{ article.id }}">
-											<b>{{ article.title }}</b>
-										</a>
-									</h4>
-									<h5 class="title"><a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.content|slice(0, 250) }}...</a><h5>
+											<i class="ion-eye"></i> Lire plus ...</a>
+									</li>
+								</ul>
 
-									<ul class="post-footer">
-										<li>
-											<a href="#">
-												<i class="ion-heart"></i>57</a>
-										</li>
-										<li>
-											<a href="#">
-												<i class="ion-chatbubble"></i>6</a>
-										</li>
-										<li>
-											<a href="#">
-												<i class="ion-eye"></i>138</a>
-										</li>
-									</ul>
-
-								</div>
-								<!-- blog-info -->
 							</div>
-							<!-- single-post -->
+							<!-- blog-info -->
 						</div>
-						<!-- card -->
+						<!-- single-post -->
 					</div>
-					<!-- col-lg-4 col-md-6 -->					
-				{% endfor %} 
-                <hr>
-                {{ include('front/pagination.html.twig') }}
-			</div>
-			<!-- row -->
+					<!-- card -->
+				</div>
+				<!-- col-lg-4 col-md-6 -->
+			{% endfor %}
+
+		</div>
+		<!-- row --> {{ include('front/pagination.html.twig', {url: 'url=blog' ~ '&'}) }}
 	</section>
 	<!-- section -->
 

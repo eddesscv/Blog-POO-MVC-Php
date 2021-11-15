@@ -547,6 +547,7 @@ header .src-area .src-btn {
 footer {
     padding: 70px 0 30px;
     background: #fff;
+    position: sticky;
 }
 
 footer .footer-section {
@@ -622,4 +623,46 @@ footer .input-area .submit-btn {
     opacity: .8;
     cursor: pointer;
     transition: all .2s;
+}
+
+
+/**/
+
+#js-form-hide-buttons {
+    color: #fff;
+}
+
+.form-check {
+    padding-top: 10px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+textarea.form-control {
+    height: 200px;
+}
+
+@media (min-width: 992px) {
+    .form-check {
+        padding-top: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .form-check {
+        margin-right: 10px;
+    }
+}
+
+.hideSearch {
+    display: none;
+}
+
+.container-1 {
+    margin-top: 10px;
+    min-height: 70vh;
 }

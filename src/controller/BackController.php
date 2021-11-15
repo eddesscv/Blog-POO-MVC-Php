@@ -27,15 +27,28 @@ class BackController extends Controller
     }
     public function administration()
     {
+        
         if ($this->checkAdmin()) {
-            $articles = $this->articleManager->getArticles();
-            $comments = $this->commentManager->getFlagComments();
-            $comments = $this->commentManager->getUnValidComments();
+            
+            $articles = $this->articleManager->getArticlesAdmin(intval($this->session->get('id')));
+
+            $allArticles = $this->articleManager->getArticles();
+            
+            $flagComments = $this->commentManager->getFlagComments();
+            $unValComments = $this->commentManager->getUnValidComments(intval($this->session->get('id')));
+            $valComments = $this->commentManager->getValidComments(intval($this->session->get('id'))); // Comments par user 
+
+            $allValComments = $this->commentManager->getAllValidComments();
+
             $users = $this->userManager->getUsers();
             return $this->render('back/administration.html.twig', [
                 'articles' => $articles,
-                'comments' => $comments,
+                'flagComments' => $flagComments,
+                'unValComments' => $unValComments,
+                'valComments' => $valComments,
                 'users' => $users,
+                'allArticles' => $allArticles,
+                'allValComments' => $allValComments,
             ]);
         }
     }
@@ -77,6 +90,7 @@ class BackController extends Controller
             }
             $post->set('id', $article->getId());
             $post->set('title', $article->getTitle());
+            $post->set('imgUrl', $article->getImgUrl());
             $post->set('chapo', $article->getChapo());
             $post->set('content', $article->getContent());
             $post->set('author', $article->getAuthor());
@@ -164,7 +178,7 @@ class BackController extends Controller
         if ($this->checkAdmin()) {
             $this->commentManager->validComment($commentId);
             $this->session->set('valid_comment', 'Le commentaire a bien été approuvé');
-            header('Location: ../public/index.php?url=administration');
+            header('Location: ../public/index.php?url=administration#val_comment');
         }
     }
 }

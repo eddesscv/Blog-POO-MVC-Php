@@ -12,6 +12,10 @@ class Article
      * @var string
      */
     private $title;
+    /**
+     * @var string
+     */
+    private $imgUrl;
      /**
      * @var string
      */
@@ -60,6 +64,20 @@ class Article
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+    /**
+     * @return string
+     */
+    public function getImgUrl()
+    {
+        return $this->imgUrl;
+    }
+    /**
+     * @param string $imgUrl
+     */
+    public function setImgUrl($imgUrl)
+    {
+        $this->imgUrl = $imgUrl;
     }
       /**
      * @return string

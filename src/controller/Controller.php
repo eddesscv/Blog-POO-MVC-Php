@@ -12,6 +12,7 @@ use App\src\model\Pagination;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+
 abstract class Controller
 {
     protected $articleManager;

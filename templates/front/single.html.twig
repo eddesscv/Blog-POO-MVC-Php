@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block title %} {{ article.title }}
 {% endblock %}
+
+
 {% block content %}
 	<section class="post-area section">
 		<div class="container">
@@ -16,25 +18,28 @@
 							<div class="post-info">
 
 								<div class="left-area">
-									<a class="avatar" href="#"><img src="../public/images/avatar-1-120x120.jpg" alt="Profile Image"></a>
+									<a class="avatar"><img src="../public/images/blog_img.jpg" alt="Profile Image"></a>
 								</div>
 
 								<div class="middle-area">
-									<a class="name" href="#">
+									<a class="name">
 										<b>{{ article.author }}</b>
 									</a>
 									<h6 class="date">
-										Creé: le {{ article.createdAt }} | Modifié le: {{ article.updatedAt }}</h6>
+										Creé: le {{ article.createdAt|date('d/M/Y H:m:s') }}
+										| Modifié le: {{ article.updatedAt|date('d/M/Y H:m:s') }}</h6>
 								</div>
 
 							</div>
 							<!-- post-info -->
 
 							<h3 class="title">
-									<b>{{ article.title }}</b>
+								<b>{{ article.title }}</b>
 							</h3>
 
-							<h4 class="title"><b>{{ article.chapo }}</b></h4>
+							<h4 class="title">
+								<b>{{ article.chapo }}</b>
+							</h4>
 
 							<p class="para">{{ article.content }}</p>
 
@@ -42,13 +47,13 @@
 							<ul class="tags">
 
 								<br>
-								{% if session.get('role') is same as('admin') %}
-									<div class="actions">
-										<a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
-										<a class="btn btn-danger" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
-									</div>
-									<br>
-								{% endif %}
+								{# {% if session.get('role') is same as('admin') %}
+																	<div class="actions">
+																		<a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
+																		<a class="btn btn-danger" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
+																	</div>
+																	<br>
+																{% endif %} #}
 							</ul>
 						</div>
 						<!-- blog-post-inner -->
@@ -56,34 +61,52 @@
 						<div class="post-icons-area">
 							<ul class="post-icons">
 								<li>
-									<a href="#">
-										<i class="ion-heart"></i>57</a>
+									{% if article.updatedAt is not same as('NULL') %}
+										<a>
+											<i class="ion-calendar"></i>
+											Last update {{article.updatedAt|date('d M Y')}}</a>
+									{% else %}
+										<a>
+											<i class="ion-clock"></i>
+											Created {{article.createdAt|date('d/M/Y')}}</a>
+									{% endif %}
 								</li>
+
 								<li>
 									<a href="#commentaire">
-										<i class="ion-chatbubble"></i> {{comments|length }}</a>
-								</li>
-								<li>
-									<a href="#">
-										<i class="ion-eye"></i>138</a>
+										<i class="ion-chatbubble"></i> {{ comments|length }}</a>
 								</li>
 							</ul>
 
 							<ul class="icons">
-								<li>SHARE :
+								<li>PARTAGER :
 								</li>
 								<li>
-									<a href="#">
+									<a href="https://www.facebook.com/sharer.php?{{
+																														                    'u=' ~ share_url ~
+																														                    '&picture=' ~ share_image ~
+																														                    '&title=' ~ share_title ~
+																														                    '&description=' ~ share_description
+																														                }}" target="_blank">
 										<i class="ion-social-facebook"></i>
 									</a>
 								</li>
 								<li>
-									<a href="#">
+									<a href="https://twitter.com/share?{{
+																				                    'text=' ~ share_title ~
+																				                    '&url=' ~ share_url
+																				                }}" target="_blank">
 										<i class="ion-social-twitter"></i>
 									</a>
 								</li>
 								<li>
-									<a href="#">
+									<a href="http://https://www.pinterest.fr/pin-builder/?{{
+										                    'url=' ~ share_url ~
+										                    '&title=' ~ share_title ~
+										                    '&description=' ~ share_description ~
+										                    '&image=' ~ share_image ~
+										                    '&noparse=true'
+										                }}" target="_blank">
 										<i class="ion-social-pinterest"></i>
 									</a>
 								</li>
@@ -107,19 +130,19 @@
 								</h4>
 
 								<div class="commnets-area">
-								{% if comment.activatedComment == true %}
 									{% if comments|length > 0 %}
 										{% for comment in comments %}
+
 											<div class="comment">
 
 												<div class="post-info">
 
 													<div class="left-area">
-														<a class="avatar" href="#"><img src="../public/images/avatar-1-120x120.jpg" alt="Profile Image"></a>
+														<a class="avatar"><img src="../public/images/profile2.png" alt="Profile Image"></a>
 													</div>
 
 													<div class="middle-area">
-														<a class="name" href="#">
+														<a class="name">
 															<b>{{ comment.pseudo }}</b>
 														</a>
 														<h6 class="date">le {{ comment.createdAt }}</h6>
@@ -128,7 +151,7 @@
 													<div class="right-area">
 														<h5 class="reply-btn">
 															{% if comment.flag %}
-																<p>Ce commentaire a déjà été signalé</p>
+																<p>Déjà signalé</p>
 															{% else %}
 																<p>
 																	<a class="btn btn-warning" href="../public/index.php?url=flagComment&commentId={{ comment.id }}">Signaler</a>
@@ -138,12 +161,12 @@
 													</div>
 
 													<div class="right-area">
-														<h5 class="reply-btn">
-															{% if session.get('role') is same as('admin') %}
-																<p>
-																	<a class="btn btn-danger" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer</a>
-																</p>
-															{% endif %}
+														<h5
+															class="reply-btn">{#{% if session.get('role') is same as('admin') %}
+																																																																																																<p>
+																																																																																																	<a class="btn btn-danger" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer</a>
+																																																																																																</p>
+																																																																																															{% endif %}"#}
 														</h5>
 													</div>
 
@@ -154,12 +177,9 @@
 
 											</div>
 											<br>
-										{% endfor %} {{ include('front/pagination.html.twig', {
-                url: 'url=article&articleId=' ~ article.id ~ '&'
-            }) }}
+										{% endfor %} {{ include('front/pagination.html.twig', {url: 'url=article&articleId=' ~ article.id ~ '&'}) }}
 									{% else %}
 										<p class="alert alert-warning">Aucun commentaire pour le moment</p>
-									{% endif %}
 									{% endif %}
 
 								</div>
@@ -184,98 +204,111 @@
 
 						<div class="sidebar-area about-area">
 							<h4 class="title">
-								<b>ABOUT BONA</b>
+								<b>À PROPOS</b>
 							</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-																																																																																																																              ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
-																																																																																																																              Ut enim ad minim veniam</p>
-						</div>
+							<a><img src="../public/images/ednilson.jpg" alt="Profile Image"></a>
+							<h5>
 
-						<div class="sidebar-area subscribe-area">
-
-							<h4 class="title">
-								<b>SUBSCRIBE</b>
-							</h4>
-							<div class="input-area">
-								<form>
-									<input class="email-input" type="text" placeholder="Enter your email">
-									<button class="submit-btn" type="submit">
-										<i class="icon ion-ios-email-outline"></i>
-									</button>
-								</form>
-							</div>
-
-						</div>
-						<!-- subscribe-area -->
-
-						<div class="tag-area">
-
-							<h4 class="title">
-								<b>TAG CLOUD</b>
-							</h4>
+								Ednilson MENDES, Développeur d'application - PHP/Symfony</h5>
+							<br>
 							<ul>
-								<li><a href="#">Manual</a></li>
-								<li><a href="#">Liberty</a></li>
-								<li><a href="#">Recomendation</a></li>
-								<li><a href="#">Interpritation</a></li>
-								<li><a href="#">Manual</a></li>
-								<li><a href="#">Liberty</a></li>
-								<li><a href="#">Recomendation</a></li>
-								<li><a href="#">Interpritation</a></li>
+								<li>
+									- Analyser un cahier des charges et choisir une solution technique adaptée parmi les solutions existantes</li>
+								<li>
+									- Concevoir l’architecture technique d’une application à l’aide de diagrammes UML</li>
+								<li>
+									- Créer des projets web dynamiques grâce PHP
+								</li>
+								<li>
+									- Communiquer avec une base de données pour stocker et requêter des informations
+								</li>
+								<li>
+									- Développer de manière professionnelle grâce au framework Symfony
+								</li>
+								<li>
+									- Mettre en oeuvre des tests unitaires et fonctionnels ainsi qu’utiliser les outils les plus connus d’intégration continue
+								</li>
+								<li>
+									- Produire une documentation technique et fonctionnelle de l’application
+								</li>
+								<li>
+									- Prendre en compte les problématiques de performance d’une application PHP
+								</li>
 							</ul>
-
-						</div>
-						<!-- subscribe-area -->
-
+							ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
+																																																																																																																																																																																              Ut enim ad minim veniam</p>
 					</div>
-					<!-- info-area -->
+
+					<div class="sidebar-area subscribe-area">
+
+						<h4 class="title">
+							<b>TÉLÉCHARGEZ MON CV</b>
+						</h4>
+						<a target="_blank" href="../public/pdf/cv.pdf">
+							<i class="icon ion-ios-cloud-download"></i>
+						</a>
+					</div>
+					<!-- subscribe-area -->
+
 
 				</div>
-				<!-- col-lg-4 col-md-12 -->
+				<!-- info-area -->
 
 			</div>
-			<!-- row -->
+			<!-- col-lg-4 col-md-12 -->
 
 		</div>
-		<!-- container -->
-	</section>
-	<!-- post-area -->
+		<!-- row -->
+
+	</div>
+	<!-- container -->
+</section>
+<!-- post-area -->
 
 
-	<section class="recomended-area section">
-		<div class="container">
-			<h3>Vous allez aimer aussi voir</h3>
-			<div class="row">
+<section class="recomended-area section">
+	<div class="container">
+		<h3>Derniers articles</h3>
+		<div class="row">
 
+			{% for article in articlesLast3 %}
 				<div class="col-lg-4 col-md-6">
 					<div class="card h-100">
 						<div class="single-post post-style-1">
 
-							<div class="blog-image"><img src="../public/images/alex-lambley-205711.jpg" alt="Blog Image"></div>
+							<div class="blog-image"><img src={{ article.imgUrl }} alt="{{ article.title }}"></div>
 
-							<a class="avatar" href="#"><img src="../public/images/icons8-team-355979.jpg" alt="Profile Image"></a>
+							<a class="avatar"><img src="../public/images/blog_img.jpg" alt="Profile Image"></a>
 
 							<div class="blog-info">
 
 								<h4 class="title">
-									<a href="#">
-										<b>How Did Van Gogh's Turbulent Mind Depict One of the Most Complex
-																																																																																																																																																										              Concepts in Physics?</b>
+									<a href="../public/index.php?url=article&articleId={{ article.id }}">
+										<b>{{ article.title }}</b>
 									</a>
 								</h4>
+								<h5 class="title">
+									<a href="../public/index.php?url=article&articleId={{ article.id }}">{{ article.content|slice(0, 250) }}...</a>
+								</h5>
 
 								<ul class="post-footer">
 									<li>
-										<a href="#">
-											<i class="ion-heart"></i>57</a>
+										{% if article.updatedAt is not same as('NULL') %}
+											<a>
+												<i class="ion-clock"></i> {{article.updatedAt|date('d/m/Y')}}</a>
+										{% else %}
+											<a>
+												<i class="ion-clock"></i> {{article.createdAt|date('d/m/Y')}}</a>
+										{% endif %}
 									</li>
 									<li>
-										<a href="#">
-											<i class="ion-chatbubble"></i>6</a>
+										<a>
+											<i class="ion-person"></i> {{article.author}}</a>
 									</li>
 									<li>
-										<a href="#">
-											<i class="ion-eye"></i>138</a>
+										<a href="../public/index.php?url=article&articleId={{ article.id }}">
+											<i class="ion-eye"></i>
+											Lire plus ...</a>
 									</li>
 								</ul>
 
@@ -286,14 +319,13 @@
 					</div>
 					<!-- card -->
 				</div>
-				<!-- col-md-6 col-sm-12 -->
-
-			</div>
-			<!-- row -->
+				<!-- col-lg-4 col-md-6 -->
+			{% endfor %}
 
 		</div>
-		<!-- container -->
-	</section>
+		<!-- row -->
 
-
-{% endblock %}
+	</div>
+	<!-- container -->
+</section>
+<!-- section -->{% endblock %}

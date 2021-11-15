@@ -22,7 +22,6 @@
 			<link rel="stylesheet" type="text/css" href="../public/css/ionicons.css">
 			<link rel="stylesheet" type="text/css" href="../public/css/styles.css">
 			<link rel="stylesheet" type="text/css" href="../public/css/responsive.css">
-			<link rel="stylesheet" type="text/css" href="../public/css/style.css">
 
 			<link rel="stylesheet" type="text/css" href="../public/css/css_single/styles.css">
 			<link rel="stylesheet" type="text/css" href="../public/css/css_single/responsive.css">
@@ -30,8 +29,8 @@
 	</head>
 	<body>
 		<div id="body_content"> {{ include('_inc/menu.html.twig') }}
-			<div class="container">
-				<h1 class="text-center mt-4">Mon blog</h1>
+			<div class="container container-1 mt-5">
+				<br>
 				{% block content %}{% endblock %}
 			</div> {{ include('_inc/footer.html.twig') }}
 		</div>
@@ -42,6 +41,7 @@
 			<script src="../public/js/tether.min.js"></script>
 			<script src="../public/js/bootstrap.js"></script>
 			<script src="../public/js/scripts.js"></script>
+			<script src="../public/js/validation.js"></script>
 
 		{% endblock %}
 	</body>
