@@ -27,9 +27,9 @@ class CommentManager extends Manager
 
     public function getCommentsFromArticle($articleId, $limit = null, $start = null)
     {
-        $sql = 'SELECT id, pseudo, content, createdAt, flag, validComment FROM comment WHERE article_id = ? ORDER BY createdAt DESC';
-        if($limit) {
-            $sql .= ' LIMIT '.$limit.' OFFSET '.$start;
+        $sql = 'SELECT id, pseudo, content, createdAt, flag, validComment FROM comment WHERE article_id = ? and validComment = true ORDER BY createdAt DESC';
+        if ($limit) {
+            $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $start;
         }
         $result = $this->createQuery($sql, [$articleId]);
         $comments = [];
@@ -64,6 +64,44 @@ class CommentManager extends Manager
     {
         $sql = 'SELECT id, pseudo, content, createdAt, flag, validComment FROM comment WHERE flag = ? ORDER BY createdAt DESC';
         $result = $this->createQuery($sql, [1]);
+        $flagComments = [];
+        foreach ($result as $row) {
+            $commentId = $row['id'];
+            $flagComments[$commentId] = $this->buildObject($row);
+        }
+        $result->closeCursor();
+        return $flagComments;
+    }
+
+    public function validComment($commentId)
+    {
+        $sql = 'UPDATE comment SET validComment = ? WHERE id = ?';
+        $this->createQuery($sql, [1, $commentId]);
+    }
+   
+    public function getUnValidComments ($idAdmin, $limit = null, $start = null)
+    {   
+        $sql = 'SELECT comment.id, comment.pseudo, comment.content, comment.createdAt, comment.flag, comment.validComment, comment.article_id FROM comment INNER JOIN article ON comment.article_id = article.id INNER JOIN user ON article.user_id = user.id WHERE article.user_id = ? and validComment = false ORDER BY createdAt DESC';
+        if ($limit) {
+            $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $start;
+        }
+        $result = $this->createQuery($sql, [$idAdmin]);
+        $unValComments = [];
+        foreach ($result as $row) {
+            $commentId = $row['id'];
+            $unValComments[$commentId] = $this->buildObject($row);
+        }
+        $result->closeCursor();
+        return $unValComments;
+    }
+
+    public function getValidComments ($idAdmin, $limit = null, $start = null)
+    {   
+        $sql = 'SELECT comment.id, comment.pseudo, comment.content, comment.createdAt, comment.flag, comment.validComment, comment.article_id FROM comment INNER JOIN article ON comment.article_id = article.id INNER JOIN user ON article.user_id = user.id WHERE article.user_id = ? and validComment = true ORDER BY createdAt DESC';
+        if ($limit) {
+            $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $start;
+        }
+        $result = $this->createQuery($sql, [$idAdmin]);
         $comments = [];
         foreach ($result as $row) {
             $commentId = $row['id'];
@@ -73,15 +111,13 @@ class CommentManager extends Manager
         return $comments;
     }
 
-    public function validComment($commentId)
-    {
-        $sql = 'UPDATE comment SET validComment = ? WHERE id = ?';
-        $this->createQuery($sql, [1, $commentId]);
-    }
-    public function getUnValidComments()
-    {
-        $sql = 'SELECT id, pseudo, content, createdAt, flag, validComment FROM comment WHERE validComment = ? ORDER BY createdAt DESC';
-        $result = $this->createQuery($sql, [0]);
+    public function getAllValidComments ($limit = null, $start = null)
+    {   
+        $sql = 'SELECT comment.id, comment.pseudo, comment.content, comment.createdAt, comment.flag, comment.validComment, comment.article_id    FROM comment INNER JOIN article ON comment.article_id = article.id INNER JOIN user ON article.user_id = user.id WHERE validComment = true ORDER BY createdAt DESC';
+        if ($limit) {
+            $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $start;
+        }
+        $result = $this->createQuery($sql);
         $comments = [];
         foreach ($result as $row) {
             $commentId = $row['id'];

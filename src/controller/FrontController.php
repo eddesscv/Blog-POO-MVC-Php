@@ -8,8 +8,9 @@ class FrontController extends Controller
 {
     public function home()
     {
-        $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->articleManager->total());
+        $pagination = $this->pagination->paginate(6, $this->get->get('page'), $this->articleManager->total());
         $articles = $this->articleManager->getArticles($pagination->getLimit(), $this->pagination->getStart());
+        
         return $this->render('front/home.html.twig', [
             'articles' => $articles,
             'pagination' => $pagination,
@@ -17,7 +18,7 @@ class FrontController extends Controller
     }
     public function blog()
     {
-        $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->articleManager->total());
+        $pagination = $this->pagination->paginate(6, $this->get->get('page'), $this->articleManager->total());
         $articles = $this->articleManager->getArticles($pagination->getLimit(), $this->pagination->getStart());
         return $this->render('front/blog.html.twig', [
             'articles' => $articles,
@@ -27,10 +28,12 @@ class FrontController extends Controller
     public function article($articleId)
     {
         $article = $this->articleManager->getArticle($articleId);
-        $pagination = $this->pagination->paginate(5, $this->get->get('page'), $this->commentManager->total($articleId));
+        $articlesLast3 = $this->articleManager->getArticlesLast3(); // dérnieres articles
+        $pagination = $this->pagination->paginate(20, $this->get->get('page'), $this->commentManager->total($articleId));
         $comments = $this->commentManager->getCommentsFromArticle($articleId, $pagination->getLimit(), $pagination->getStart());
         return $this->render('front/single.html.twig', [
-            'article' => $article,
+            'articlesLast3' => $articlesLast3,
+            'article' => $article,  
             'comments' => $comments,
             'pagination' => $pagination,
         ]);
@@ -41,8 +44,8 @@ class FrontController extends Controller
             $errors = $this->validation->validate($post, 'Comment');
             if (!$errors) {
                 $this->commentManager->addComment($post, $articleId);
-                $this->session->set('add_comment', 'Le nouveau commentaire a bien été envoyer... En attente de validation');
-                header('Location: ../public/index.php');
+                $this->session->set('add_comment', 'Le nouveau commentaire a bien été envoyé... En attente de validation');
+                header('Location: ../public/index.php?url=article&articleId='.$articleId);
             }
             $article = $this->articleManager->getArticle($articleId);
             $comments = $this->commentManager->getCommentsFromArticle($articleId);
@@ -58,7 +61,7 @@ class FrontController extends Controller
     {
         $this->commentManager->flagComment($commentId);
         $this->session->set('flag_comment', 'Le commentaire a bien été signalé');
-        header('Location: ../public/index.php');
+        header('Location: ../public/index.php?url=blog');
     }
     public function register(Parameter $post)
     {
@@ -114,6 +117,12 @@ class FrontController extends Controller
         return $this->render('front/search.html.twig', [
             'value' => $value,
             'articles' => $articles,
+        ]);
+    }
+    public function contact()
+    {
+        
+        return $this->render('front/contact.html.twig', [
         ]);
     }
 }
