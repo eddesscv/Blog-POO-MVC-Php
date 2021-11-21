@@ -7,8 +7,21 @@
 				<div class="footer-section">
 
 					<a class="logo" href="../public/index.php"><img src="../public/images/logo.png" alt="Logo Image"></a>
+
+					{% if session.get('role') is same as('user') %}
+						<p>
+							<a href="../public/index.php?url=administration">Administration</a>
+						</p>
+					{% endif %}
+					{% if session.get('role') is same as('admin') %}
+						<p>
+							<a href="../public/index.php?url=administration">
+								<i class="ion-ios-gear"></i>
+								Administration</a>
+						</p>
+					{% endif %}
 					<p class="copyright">Ednison MENDES @ {{ 'now' | date('Y') }}. All rights reserved.</p>
-					
+
 
 				</div>
 				<!-- footer-section -->
@@ -17,8 +30,8 @@
 
 			<div class="col-lg-4 col-md-6">
 				<div class="footer-section">
-
-					<ul class="icons">
+					<b>SUIVEZ-MOI</b>
+					<ul class="">
 						<li>
 							<a href="https://www.linkedin.com" target="_blank">
 								<i class="ion-social-linkedin"></i>
@@ -46,12 +59,14 @@
 			<!-- col-lg-4 col-md-6 -->
 
 
-
 			<div class="col-lg-4 col-md-6">
 				<div class="footer-section">
 
-					
-										<b>TÉLÉCHARGEZ MON CV</b>	<a target="_blank" href="../public/pdf/cv.pdf"><i class="icon ion-ios-cloud-download"></i></a>
+					<a target="_blank" href="../public/pdf/cv.pdf">
+						<b>TÉLÉCHARGEZ MON CV</b>
+
+						<i class="ion-ios-cloud-download"></i>
+					</a>
 
 				</div>
 				<!-- footer-section -->
