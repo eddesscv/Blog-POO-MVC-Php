@@ -13,7 +13,6 @@ Bienvenue sur mon projet n°5 du parcours OpenClassrooms "Développeur d'applica
 - Etape 1 : Transférer les fichiers dans le dossier racine de votre serveur web (en général "www/").
 - Etape 2 : Créer une base données sur votre SGDB (MySQL) et importer le fichier DB/blog.sql pour charger les tables du blog.
 - Les informations pour la connexion à la base de données sont présents dans le fichier Config/dev.php
-- Pour la page de connexion (accès SuperAdmin), vous pouvez utiliser l'identifiant admin et le mot de passe password.
   
 
 
