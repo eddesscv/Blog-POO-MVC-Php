@@ -33,3 +33,13 @@
         {{ session.show('valid_comment') }}
     </div>
 {% endif %}
+{% if session.get('valid_user') %}
+    <div class="alert alert-success">
+        {{ session.show('valid_user') }}
+    </div>
+{% endif %}
+{% if session.get('delete_message') %}
+    <div class="alert alert-danger">
+        {{ session.show('delete_message') }}
+    </div>
+{% endif %}

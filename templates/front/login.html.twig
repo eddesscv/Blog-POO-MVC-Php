@@ -6,6 +6,10 @@
 		<div class="alert alert-warning"> {{ session.show('error_login') }}
 		</div>
 	{% endif %}
+	{% if session.get('error_compte_inactif') %}
+		<div class="alert alert-danger"> {{ session.show('error_compte_inactif') }}
+		</div>
+	{% endif %}
 	<div>
 		<form method="post" action="../public/index.php?url=login">
 			<div class="form-group">

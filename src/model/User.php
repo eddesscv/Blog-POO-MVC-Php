@@ -20,6 +20,10 @@ class User
      * @var \DateTime
      */
     private $createdAt;
+     /**
+     * @var bool
+     */
+    private $validUser;
     /**
      * @var string
      */
@@ -93,5 +97,19 @@ class User
     public function setRole($role)
     {
         $this->role = $role;
+    }
+    /**
+     * @return bool
+     */
+    public function getValidUser()
+    {
+        return $this->validUser;
+    }
+    /**
+     * @param bool $validUser
+     */
+    public function setValidUser($validUser)
+    {
+        $this->$validUser = $validUser;
     }
 }

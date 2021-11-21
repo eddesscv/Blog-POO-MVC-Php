@@ -38,3 +38,8 @@
         {{ session.show('error_search') }}
     </div>
 {% endif %}
+{% if session.get('send_message') %}
+    <div class="alert alert-success">
+        {{ session.show('send_message') }}
+    </div>
+{% endif %}

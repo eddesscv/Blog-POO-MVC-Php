@@ -1,1 +1,1 @@
-$(function() { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
+//$(function() { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });

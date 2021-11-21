@@ -48,12 +48,12 @@
 
 								<br>
 								{# {% if session.get('role') is same as('admin') %}
-																	<div class="actions">
-																		<a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
-																		<a class="btn btn-danger" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
-																	</div>
-																	<br>
-																{% endif %} #}
+																									<div class="actions">
+																										<a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
+																										<a class="btn btn-danger" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
+																									</div>
+																									<br>
+																								{% endif %} #}
 							</ul>
 						</div>
 						<!-- blog-post-inner -->
@@ -83,30 +83,30 @@
 								</li>
 								<li>
 									<a href="https://www.facebook.com/sharer.php?{{
-																														                    'u=' ~ share_url ~
-																														                    '&picture=' ~ share_image ~
-																														                    '&title=' ~ share_title ~
-																														                    '&description=' ~ share_description
-																														                }}" target="_blank">
+																																								                    'u=' ~ share_url ~
+																																								                    '&picture=' ~ share_image ~
+																																								                    '&title=' ~ share_title ~
+																																								                    '&description=' ~ share_description
+																																								                }}" target="_blank">
 										<i class="ion-social-facebook"></i>
 									</a>
 								</li>
 								<li>
 									<a href="https://twitter.com/share?{{
-																				                    'text=' ~ share_title ~
-																				                    '&url=' ~ share_url
-																				                }}" target="_blank">
+																														                    'text=' ~ share_title ~
+																														                    '&url=' ~ share_url
+																														                }}" target="_blank">
 										<i class="ion-social-twitter"></i>
 									</a>
 								</li>
 								<li>
 									<a href="http://https://www.pinterest.fr/pin-builder/?{{
-										                    'url=' ~ share_url ~
-										                    '&title=' ~ share_title ~
-										                    '&description=' ~ share_description ~
-										                    '&image=' ~ share_image ~
-										                    '&noparse=true'
-										                }}" target="_blank">
+																				                    'url=' ~ share_url ~
+																				                    '&title=' ~ share_title ~
+																				                    '&description=' ~ share_description ~
+																				                    '&image=' ~ share_image ~
+																				                    '&noparse=true'
+																				                }}" target="_blank">
 										<i class="ion-social-pinterest"></i>
 									</a>
 								</li>
@@ -163,10 +163,10 @@
 													<div class="right-area">
 														<h5
 															class="reply-btn">{#{% if session.get('role') is same as('admin') %}
-																																																																																																<p>
-																																																																																																	<a class="btn btn-danger" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer</a>
-																																																																																																</p>
-																																																																																															{% endif %}"#}
+																																																																																																																<p>
+																																																																																																																	<a class="btn btn-danger" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer</a>
+																																																																																																																</p>
+																																																																																																															{% endif %}"#}
 														</h5>
 													</div>
 
@@ -235,18 +235,17 @@
 									- Prendre en compte les problématiques de performance d’une application PHP
 								</li>
 							</ul>
-							ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur
-																																																																																																																																																																																              Ut enim ad minim veniam</p>
+																																																																																																																																																																																							              Ut enim ad minim veniam</p>
 					</div>
 
 					<div class="sidebar-area subscribe-area">
 
 						<h4 class="title">
-							<b>TÉLÉCHARGEZ MON CV</b>
+							<a target="_blank" href="../public/pdf/cv.pdf">
+								<b>TÉLÉCHARGEZ MON CV</b>	
+								<i class="ion-ios-cloud-download"></i>
+							</a>
 						</h4>
-						<a target="_blank" href="../public/pdf/cv.pdf">
-							<i class="icon ion-ios-cloud-download"></i>
-						</a>
 					</div>
 					<!-- subscribe-area -->
 

@@ -20,26 +20,26 @@ class ArticleManager extends Manager
         $article->setUpdatedAt($row['updatedAt']);
         return $article;
     }
-    public function total()
-    {
-        $sql = 'SELECT COUNT(*) FROM article';
-        return $this->createQuery($sql)->fetchColumn();
-    }
-    public function getArticles($limit = null, $start = null)
-    {
-        $sql = 'SELECT article.id, article.title, article.imgUrl, article.chapo, article.content, user.pseudo, article.createdAt, article.updatedAt FROM article INNER JOIN user ON article.user_id = user.id  ORDER BY article.id DESC';
-        if ($limit) {
-            $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $start;
+        public function total()
+        {
+            $sql = 'SELECT COUNT(*) FROM article';
+            return $this->createQuery($sql)->fetchColumn();
         }
-        $result = $this->createQuery($sql);
-        $articles = [];
-        foreach ($result as $row) {
-            $articleId = $row['id'];
-            $articles[$articleId] = $this->buildObject($row);
+        public function getArticles($limit = null, $start = null)
+        {
+            $sql = 'SELECT article.id, article.title, article.imgUrl, article.chapo, article.content, user.pseudo, article.createdAt, article.updatedAt FROM article INNER JOIN user ON article.user_id = user.id  ORDER BY article.id DESC';
+            if ($limit) {
+                $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $start;
+            }
+            $result = $this->createQuery($sql);
+            $articles = [];
+            foreach ($result as $row) {
+                $articleId = $row['id'];
+                $articles[$articleId] = $this->buildObject($row);
+            }
+            $result->closeCursor();
+            return $articles;
         }
-        $result->closeCursor();
-        return $articles;
-    }
 
     // Les 3 dérnieres articles
     public function getArticlesLast3()

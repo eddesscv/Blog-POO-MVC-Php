@@ -75,6 +75,9 @@ class Router
                 elseif($url === 'deleteUser'){
                     $this->backController->deleteUser($this->request->getGet()->get('userId'));
                 }
+                elseif($url === 'validerUser'){
+                    $this->backController->validerUser($this->request->getGet()->get('userId'));
+                }
                 elseif($url === 'administration'){
                     $this->backController->administration();
                 }
@@ -83,6 +86,12 @@ class Router
                 }
                 elseif($url === 'blog'){
                     $this->frontController->blog();
+                }
+                elseif($url === 'sendMessage'){
+                    $this->frontController->sendMessage($this->request->getPost());
+                }
+                elseif($url === 'deleteMessage') {
+                    $this->backController->deleteMessage($this->request->getGet()->get('contactId'));
                 }
                 elseif($url === 'contact'){
                     $this->frontController->contact();

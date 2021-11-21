@@ -7,6 +7,7 @@ use App\src\constraint\Validation;
 use App\src\Manager\ArticleManager;
 use App\src\Manager\CommentManager;
 use App\src\Manager\UserManager;
+use App\src\Manager\ContactManager;
 use App\src\model\Pagination;
 //use App\src\model\View;
 use Twig\Environment;
@@ -18,6 +19,7 @@ abstract class Controller
     protected $articleManager;
     protected $commentManager;
     protected $userManager;
+    protected $contactManager;
     protected $get;
     protected $post;
     protected $session;
@@ -32,6 +34,7 @@ abstract class Controller
         $this->articleManager = new ArticleManager();
         $this->commentManager = new CommentManager();
         $this->userManager = new UserManager();
+        $this->contactManager = new ContactManager();
         $this->pagination = new Pagination();
         $this->validation = new Validation();
         $request = new Request();

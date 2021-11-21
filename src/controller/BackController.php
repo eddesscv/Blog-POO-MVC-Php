@@ -39,8 +39,13 @@ class BackController extends Controller
             $valComments = $this->commentManager->getValidComments(intval($this->session->get('id'))); // Comments par user 
 
             $allValComments = $this->commentManager->getAllValidComments();
+            
 
             $users = $this->userManager->getUsers();
+
+            $messages = $this->contactManager->getMessages();
+
+
             return $this->render('back/administration.html.twig', [
                 'articles' => $articles,
                 'flagComments' => $flagComments,
@@ -49,6 +54,7 @@ class BackController extends Controller
                 'users' => $users,
                 'allArticles' => $allArticles,
                 'allValComments' => $allValComments,
+                'messages' => $messages,
             ]);
         }
     }
@@ -179,6 +185,24 @@ class BackController extends Controller
             $this->commentManager->validComment($commentId);
             $this->session->set('valid_comment', 'Le commentaire a bien été approuvé');
             header('Location: ../public/index.php?url=administration#val_comment');
+        }
+    }
+
+    public function validerUser($userId)
+    {
+        if ($this->checkAdmin()) {
+            $this->userManager->validerUser($userId);
+            $this->session->set('valid_user', 'L\'utilsateur a bien été validé');
+            header('Location: ../public/index.php?url=administration');
+        }
+    }
+
+    public function deleteMessage($contactId)
+    {
+        if ($this->checkAdmin()) {
+            $this->contactManager->deleteMessage($contactId);
+            $this->session->set('delete_message', 'Le message a bien été supprimé');
+            header('Location: ../public/index.php?url=administration');
         }
     }
 }

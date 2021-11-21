@@ -20,6 +20,9 @@
 		<li class="nav-item" role="presentation">
 			<a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="contact" aria-selected="false">Utilisateurs</a>
 		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="contact_message-tab" data-toggle="tab" href="#contact_message" role="tab" aria-controls="contact" aria-selected="false">Messages</a>
+		</li>
 	</ul>
 	<div class="tab-content" id="myTabContent">
 		<div class="tab-pane fade show active" id="article" role="tabpanel" aria-labelledby="article-tab">
@@ -99,7 +102,7 @@
 					<td>Id</td>
 					<td>Pseudo</td>
 					<td>Message</td>
-					<td>Titre article</td>
+					<!--<td>Titre article</td>-->
 					<td>Date</td>
 					<td>Actions</td>
 				</tr>
@@ -109,7 +112,7 @@
 						<td>{{ comment.id }}</td>
 						<td>{{ comment.pseudo }}</td>
 						<td>{{ comment.content|slice(0, 150) }}</td>
-						<td>{{ comment.article_id }}</td>
+						<!--<td>{{ comment.article_id }}</td>-->
 						<td>Créé le : {{ comment.createdAt|date('d/m/Y H:m:s') }}</td>
 						<td>
 							<a class="btn btn-warning" href="../public/index.php?url=validComment&commentId={{ comment.id }}">Valider le commentaire</a>
@@ -166,6 +169,7 @@
 						<td>Pseudo</td>
 						<td>Date</td>
 						<td>Rôle</td>
+						<td>Valider</td>
 						<td>Actions</td>
 					</tr>
 					{% for user in users %}
@@ -173,11 +177,22 @@
 							<td>{{ user.id }}</td>
 							<td>{{ user.pseudo }}</td>
 							<td>Créé le : {{ user.createdAt|date('d/m/Y H:m:s') }}</td>
-							<td>{% if user.id is same as('1') %}
+							<td>
+								{% if user.id is same as('1') %}
 									Administrateur
 								{% else %}
 									Éditeur/éditrice
-								{% endif %}</td>
+								{% endif %}
+							</td>
+							<td>	
+								{% if user.validUser is not same as ('1') %}
+									<a class="btn btn-success" href="../public/index.php?url=validerUser&userId={{ user.id }}">
+										Valider
+									</a>
+								{% else %}
+									<p>Validé</p>
+								{% endif %}
+							</td>
 							<td>
 								{% if user.id is not same as('1') %}
 									<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer cet utilisateur ?')) { return false; }" href="../public/index.php?url=deleteUser&userId={{ user.id }}">
@@ -186,6 +201,40 @@
 								{% else %}
 									<p>Suppression impossible</p>
 								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			{% else %}
+				<p>Vous n'avez pas le droit d'accéder à cette page</p>
+			{% endif %}
+		</div>
+
+
+		<div class="tab-pane fade" id="contact_message" role="tabpanel" aria-labelledby="contact_message-tab">
+			{% if session.get('id') is same as('1') %}
+				<table class="table table-bordered">
+					<tr>
+						<td>Id</td>
+						<td>Nom complet</td>
+						<td>Email</td>
+						<td>Subject</td>
+						<td>Message</td>
+						<td>Date</td>
+						<td>Action</td>
+					</tr>
+					{% for contact in messages %}
+						<tr>
+							<td>{{ contact.id }}</td>
+							<td>{{ contact.yourName }}</td>
+							<td>{{ contact.email }}</td>
+							<td>{{ contact.Subject }}</td>
+							<td>{{ contact.yourMessage}}</td>
+							<td>Créé le : {{ contact.createdAt|date('d/m/Y H:m:s') }}</td>
+							<td>
+								<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer ce message ?')) { return false; }" href="../public/index.php?url=deleteMessage&contactId={{ contact.id }}">
+									<i class="ion-ios-trash-outline" title="Supprimer"></i>
+								</a>
 							</td>
 						</tr>
 					{% endfor %}

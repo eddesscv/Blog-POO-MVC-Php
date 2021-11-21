@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+{% block title %}Contact
+{% endblock %}
+
+{% block content %}
+
+
+	<!-- Contact Subpage -->
+	<section class="pt-page pt-page-5 animated slideInUp mt-5" data-id="contact">
+		<div class="border-block-top-110"></div>
+		<div class="section-inner">
+				<div class="section-title-block text-center   ">
+					<div class="section-title-wrapper">
+						<h2 class="section-title">Contactez-moi</h2>
+					</div>
+				</div>
+				<br>
+			<div class="row">
+
+
+				<div class="col-sm-12 col-md-12 subpage-block">
+					<div class="block-title">
+						<h3></h3>
+					</div>
+					<form id="contact-form" method="post" action="../public/index.php?url=sendMessage">
+
+						<div class="controls">
+							<div class="form-group">
+								<input id="form_name" type="text" name="yourName" class="form-control" placeholder="Nom complet" maxlength="90" required>
+								<div class="form-control-border"></div>
+								<i class="form-control-icon pe-7s-user"></i>
+								<div class="help-block with-errors"></div>
+							</div>
+
+							<div class="form-group">
+								<input id="form_email" type="email" name="email" class="form-control" maxlength="254" placeholder="Adresse email" required>
+								<div class="form-control-border"></div>
+								<i class="form-control-icon pe-7s-mail"></i>
+								<div class="help-block with-errors"></div>
+							</div>
+
+							<div class="form-group">
+								<input id="form_name" type="text" name="subject" class="form-control" placeholder="Votre demande" maxlength="90" required>
+								<div class="form-control-border"></div>
+								<i class="form-control-icon pe-7s-user"></i>
+								<div class="help-block with-errors"></div>
+							</div>
+
+							<div class="form-group">
+								<textarea id="form_message" name="yourMessage" class="form-control" placeholder="Votre message" rows="4" maxlength="16384" required></textarea>
+								<div class="form-control-border"></div>
+								<i class="form-control-icon pe-7s-comment"></i>
+								<div class="help-block with-errors"></div>
+							</div>
+
+							<input type="submit" class="button btn-send" name="submit" value="Envoyer">
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Contact Subpage -->
+
+
+{% endblock %}

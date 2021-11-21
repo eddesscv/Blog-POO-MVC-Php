@@ -3,7 +3,54 @@
 {% endblock %}
 {% block content %} {{ include('front/flashes.html.twig') }}
 
+	<!--Start About Section-->
+	<section class="" id="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5 about-img">
+						<img src="../public/images/ednilson.png" alt="" width="120%">
+				</div>
+				<div class="col-md-7 padding-left-25 mt-5">
+					<h3>Salut! Je suis Ednilson MOREIRA MENDES</h3>
+					<h4><b>Développeur d'application - PHP/Symfony</b></h4>
+					<p>Ma génération étant née durant la démocratisation des ordinateurs, notamment l'explosion de la bulle internet, j’ai pu découvrir un domaine qui m'a immédiatement séduit et qui, aujourd’hui, est devenu une vraie passion ! Je m’investis dans le digital en donnant le meilleur de moi-même.</p>
+					<ul>
+								<li>
+									- Analyser un cahier des charges et choisir une solution technique adaptée parmi les solutions existantes</li>
+								<li>
+									- Concevoir l’architecture technique d’une application à l’aide de diagrammes UML</li>
+								<li>
+									- Créer des projets web dynamiques grâce PHP
+								</li>
+								<li>
+									- Communiquer avec une base de données pour stocker et requêter des informations
+								</li>
+								<li>
+									- Développer de manière professionnelle grâce au framework Symfony
+								</li>
+								<li>
+									- Mettre en oeuvre des tests unitaires et fonctionnels ainsi qu’utiliser les outils les plus connus d’intégration continue
+								</li>
+								<li>
+									- Produire une documentation technique et fonctionnelle de l’application
+								</li>
+								<li>
+									- Prendre en compte les problématiques de performance d’une application PHP
+								</li>
+							</ul>
+				</div>
+				<!--.col-sm-7-->
+			</div>
+			<!--.row-->
+		</div>
+		<!--.container-->
+		<svg class="curveDownColor" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewbox="0 0 100 100" preserveaspectratio="none" style="fill: #fff;">
+			<path d="M0 0 C 50 100 80 100 100 0 Z"></path>
+		</svg>
+	</section>
+
 	<section class="blog-area section">
+	<h3>Dérniers articles</h3>
 		<div class="row">
 			{% for article in articles %}
 				<div class="col-lg-4 col-md-6">
@@ -42,8 +89,9 @@
 									</li>
 									<li>
 										<a href="../public/index.php?url=article&articleId={{ article.id }}">
-											<i class="ion-eye"></i> Lire plus ...</a>
-									</li>	
+											<i class="ion-eye"></i>
+											Lire plus ...</a>
+									</li>
 								</ul>
 
 							</div>
@@ -55,10 +103,9 @@
 				</div>
 				<!-- col-lg-4 col-md-6 -->
 			{% endfor %}
-			
+
 		</div>
-		<!-- row -->
-		 {{ include('front/pagination.html.twig') }}
+		<!-- row --> {{ include('front/pagination.html.twig') }}
 	</section>
 	<!-- section -->
 

@@ -2,7 +2,8 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `pseudo` varchar(100) NOT NULL,
   `password` varchar(60) NOT NULL,
-  `createdAt` datetime NOT NULL
+  `createdAt` datetime NOT NULL,
+  `validUser` boolean NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);

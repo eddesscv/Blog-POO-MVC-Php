@@ -4,64 +4,50 @@
 
 {% block content %}
 
+{{ include('front/flashes.html.twig') }}
 
-	<!-- Contact Subpage -->
-	<section class="pt-page pt-page-5 animated slideInUp mt-5" data-id="contact">
-		<div class="border-block-top-110"></div>
-		<div class="section-inner">
-			<div class="section-title-block text-center   ">
-				<div class="section-title-wrapper">
-					<h2 class="section-title">Contactez-moi</h2>
-				</div>
-			</div>
-			<br>
-			<div class="row">
-
-
-				<div class="col-sm-12 col-md-12 subpage-block">
-					<div class="block-title">
-						<h3></h3>
-					</div>
-					<form id="contact-form" method="post" action="">
-
-						<div class="controls">
-							<div class="form-group">
-								<input id="form_name" type="text" name="name" class="form-control" placeholder="Nom complet" maxlength="90" required>
-								<div class="form-control-border"></div>
-								<i class="form-control-icon pe-7s-user"></i>
-								<div class="help-block with-errors"></div>
-							</div>
-
-							<div class="form-group">
-								<input id="form_email" type="email" name="email" class="form-control" maxlength="254" placeholder="Adresse email" required>
-								<div class="form-control-border"></div>
-								<i class="form-control-icon pe-7s-mail"></i>
-								<div class="help-block with-errors"></div>
-							</div>
-
-							<div class="form-group">
-								<input id="form_name" type="text" name="subject" class="form-control" placeholder="Votre demande" maxlength="90" required>
-								<div class="form-control-border"></div>
-								<i class="form-control-icon pe-7s-user"></i>
-								<div class="help-block with-errors"></div>
-							</div>
-
-							<div class="form-group">
-								<textarea id="form_message" name="message" class="form-control" placeholder="Message" rows="4" maxlength="16384" required></textarea>
-								<div class="form-control-border"></div>
-								<i class="form-control-icon pe-7s-comment"></i>
-								<div class="help-block with-errors"></div>
-							</div>
-
-							<input type="submit" class="button btn-send" name="send" value="Envoyer">
-						</div>
-					</form>
-
-				</div>
-			</div>
+	<div class="section-title-block text-center   ">
+		<div class="section-title-wrapper">
+			<h2 class="section-title">Contactez-moi</h2>
 		</div>
-	</section>
-	<!-- End Contact Subpage -->
+	</div>
+	<br>
 
+	<form method="post" action="../public/index.php?url=sendMessage">
+		<div class="form-group">
+			<label for="yourName">Nom complet</label><br>
+			<input class="form-control" type="text" id="yourName" name="yourName" placeholder="Votre nom complet"><br>
+		</div>
+		{% if errors.yourName %}
+			<div class="alert alert-danger"> {{ errors.yourName }}
+			</div>
+		{% endif %}
+		<div class="form-group">
+			<label for="email">Adresse email</label><br>
+			<input class="form-control" type="email" id="email" name="email" placeholder="Votre adresse email"><br>
+		</div>
+		{% if errors.email %}
+			<div class="alert alert-danger"> {{ errors.email }}
+			</div>
+		{% endif %}
+		<div class="form-group">
+			<label for="subject">Objet</label><br>
+			<input class="form-control" type="text" id="subject" name="subject" placeholder="Demande de renseignement"><br>
+		</div>
+		{% if errors.subject %}
+			<div class="alert alert-danger"> {{ errors.subject }}
+			</div>
+		{% endif %}
+		<div class="form-group">
+			<label for="yourMessage">Votre message</label><br>
+			<textarea class="form-control" id="yourMessage" name="yourMessage" placeholder="Message...">
+			</textarea><br>
+		</div>
+		{% if errors.yourMessage %}
+			<div class="alert alert-danger"> {{ errors.yourMessage }}
+			</div>
+		{% endif %}
+		<input class="submit-btn" type="submit" value="ENVOYER" id="submit" name="submit">
+	</form>
 
 {% endblock %}

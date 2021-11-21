@@ -10,7 +10,7 @@ class FrontController extends Controller
     {
         $pagination = $this->pagination->paginate(6, $this->get->get('page'), $this->articleManager->total());
         $articles = $this->articleManager->getArticles($pagination->getLimit(), $this->pagination->getStart());
-        
+
         return $this->render('front/home.html.twig', [
             'articles' => $articles,
             'pagination' => $pagination,
@@ -33,7 +33,7 @@ class FrontController extends Controller
         $comments = $this->commentManager->getCommentsFromArticle($articleId, $pagination->getLimit(), $pagination->getStart());
         return $this->render('front/single.html.twig', [
             'articlesLast3' => $articlesLast3,
-            'article' => $article,  
+            'article' => $article,
             'comments' => $comments,
             'pagination' => $pagination,
         ]);
@@ -45,7 +45,7 @@ class FrontController extends Controller
             if (!$errors) {
                 $this->commentManager->addComment($post, $articleId);
                 $this->session->set('add_comment', 'Le nouveau commentaire a bien été envoyé... En attente de validation');
-                header('Location: ../public/index.php?url=article&articleId='.$articleId);
+                header('Location: ../public/index.php?url=article&articleId=' . $articleId);
             }
             $article = $this->articleManager->getArticle($articleId);
             $comments = $this->commentManager->getCommentsFromArticle($articleId);
@@ -72,7 +72,7 @@ class FrontController extends Controller
             }
             if (!$errors) {
                 $this->userManager->register($post);
-                $this->session->set('register', 'Votre inscription a bien été effectuée');
+                $this->session->set('register', 'Votre inscription a bien été effectuée... En attente de l\'activation par l\'Admin');
                 header('Location: ../public/index.php');
             }
             return $this->render('front/register.html.twig', [
@@ -84,19 +84,23 @@ class FrontController extends Controller
     }
     public function login(Parameter $post)
     {
-        if($post->get('submit')) {
+        if ($post->get('submit')) {
             $result = $this->userManager->login($post);
-            if($result && $result['isPasswordValid']) {
+            if ($result && $result['isPasswordValid']) {
                 $this->session->set('login', 'Content de vous revoir');
                 $this->session->set('id', $result['result']['id']);
                 $this->session->set('role', $result['result']['name']);
                 $this->session->set('pseudo', $post->get('pseudo'));
                 header('Location: ../public/index.php');
+            } 
+            else if (!$result) {
+                $this->session->set('error_compte_inactif', 'Votre compte n\'est pas ecore validé. Veuillez réessayer ultérieurement...');
             }
+
             else {
                 $this->session->set('error_login', 'Le pseudo ou le mot de passe sont incorrects');
                 return $this->render('front/login.html.twig', [
-                    'post'=> $post
+                    'post' => $post
                 ]);
             }
         }
@@ -105,13 +109,13 @@ class FrontController extends Controller
     public function search(Parameter $post)
     {
         $value = $post->get('search');
-        if(!$value) {
+        if (!$value) {
             $this->session->set('error_search', 'Veuillez renseigner des informations dans la zone de recherche');
             header('Location: ../public/index.php');
         }
         $isArticle = $post->get('articles');
         $articles = [];
-        if($isArticle) {
+        if ($isArticle) {
             $articles = $this->articleManager->search($value);
         }
         return $this->render('front/search.html.twig', [
@@ -121,8 +125,32 @@ class FrontController extends Controller
     }
     public function contact()
     {
-        
-        return $this->render('front/contact.html.twig', [
-        ]);
+
+        return $this->render('front/contact.html.twig', []);
+    }
+
+    public function sendMessage(Parameter $post)
+    {
+        if ($post->get('submit')) {
+            $errors = $this->validation->validate($post, 'Contact');
+            if (!$errors) {
+                $this->contactManager->sendMessage($post);
+                $this->session->set('send_message', 'Votre message a bien été envoyé. Nous y répondrons dès que possible');
+                header('Location: ../public/index.php?url=contact');
+            }
+        }
+
+        if (!empty($post->get("submit"))) {
+                ini_set("SMTP", "aspmx.l.google.com");
+                $headers = "MIME-Version: 1.0" . "\r\n";
+                $headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
+                $yourName = $post->get("yourName");
+                $email = $post->get("email");
+                $subject = $post->get("subject");
+                $yourMessage = $post->get("yourMessage");
+                $toEmail = "ednilsonmendes@outlook.com";
+                $mailHeaders = "From: " . $yourName . "<" . $email . ">\r\n";
+                mail($toEmail, $subject, $yourMessage, $mailHeaders);
+        }
     }
 }
