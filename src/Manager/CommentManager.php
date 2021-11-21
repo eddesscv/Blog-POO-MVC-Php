@@ -93,7 +93,7 @@ class CommentManager extends Manager
         return $unValComments;
     }
 
-    public function getValidComments ($idAdminl)
+    public function getValidComments ($idAdmin)
     {   
         $sql = 'SELECT comment.id, comment.pseudo, comment.content, comment.createdAt, comment.flag, comment.validComment, comment.article_id FROM comment INNER JOIN article ON comment.article_id = article.id INNER JOIN user ON article.user_id = user.id WHERE article.user_id = ? and validComment = true ORDER BY createdAt DESC';
         
