@@ -13,10 +13,9 @@ Bienvenue sur mon projet n°5 du parcours OpenClassrooms "Développeur d'applica
 - Etape 1 : Transférer les fichiers dans le dossier racine de votre serveur web (en général "www/").
 - Etape 2 : Créer une base données sur votre SGDB (MySQL) et importer le fichier DB/blog.sql pour charger les tables du blog.
 - Les informations pour la connexion à la base de données sont présents dans le fichier Config/dev.php
+- Pour la page de connexion (accès SuperAdmin), vous pouvez utiliser l'identifiant admin et le mot de passe password.
   
 
-[[https://insight.symfony.com/projects/2acedf51-04f3-4982-9acb-d8a8b10e7dcd/analyses/2]
-](dsds)
 
 ## Contexte ##
 Ça y est vous avez sauté le pas ! Le monde du développement web avec PHP est à portée de main et vous avez besoin de visibilité pour pouvoir convaincre vos futurs employeurs/clients en un seul regard. Vous êtes développeur PHP, il est donc temps de montrer vos talents au travers d’un blog à vos couleurs.
