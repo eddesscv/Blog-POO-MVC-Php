@@ -45,7 +45,6 @@ class BackController extends Controller
 
             $messages = $this->contactManager->getMessages();
 
-
             return $this->render('back/administration.html.twig', [
                 'articles' => $articles,
                 'flagComments' => $flagComments,
@@ -136,12 +135,13 @@ class BackController extends Controller
         }
     }
     public function updatePassword(Parameter $post)
-    {
+    { 
         if ($this->checkLoggedIn()) {
             if ($post->get('submit')) {
                 $this->userManager->updatePassword($post, $this->session->get('pseudo'));
                 $this->session->set('update_password', 'Le mot de passe a été mis à jour');
-                header('Location: ../public/index.php?url=profile');
+                header('Location: ../public/index.php?url=profile');               
+                
             }
             return $this->render('back/update_password.html.twig');
         }
