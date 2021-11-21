@@ -77,17 +77,4 @@ class UserManager extends Manager
         $sql = 'UPDATE user SET validUser = ? WHERE id = ?';
         $this->createQuery($sql, [1, $userId]);
     }
-/*
-    public function isValidUser($userId)
-    {
-        $sql = 'SELECT user.id, user.pseudo, user.createdAt, user.validUser, role.name FROM user INNER JOIN role ON user.role_id = role.id WHERE validUser = ? ORDER BY user.id DESC';
-        $result = $this->createQuery($sql, [1]);
-        $users = [];
-        foreach ($result as $row) {
-            $userId = $row['id'];
-            $users[$userId] = $this->buildObject($row);
-        }
-        $result->closeCursor();
-        return $users;
-    }*/
 }

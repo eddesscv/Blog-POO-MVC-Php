@@ -57,12 +57,10 @@ class ArticleManager extends Manager
     }
 
     // Les articles affichées dans le panel admin, par créator
-    public function getArticlesAdmin($idAdmin, $limit = null, $start = null)
+    public function getArticlesAdmin($idAdmin)
     {
         $sql = 'SELECT article.id, article.title, article.imgUrl, article.chapo, article.content, article.user_id as pseudo, article.createdAt, article.updatedAt FROM article WHERE article.user_id=? ORDER BY article.id DESC';
-        if ($limit) {
-            $sql .= ' LIMIT ' . $limit . ' OFFSET ' . $start;
-        }
+        
         $result = $this->createQuery($sql, [$idAdmin]);
         $articles = [];
         foreach ($result as $row) {

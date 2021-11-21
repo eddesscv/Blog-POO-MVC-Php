@@ -47,10 +47,10 @@ abstract class Controller
     {
         $loader = new FilesystemLoader('../templates');
         $this->twig = new Environment($loader, [
-            //TODO: activate cache in production
-            //'cache' => '/path/to/compilation_cache',
-            //TODO: disable debug in production
-            'debug' => true,
+            //activate cache in production
+            'cache' => '/path/to/compilation_cache',
+            //disable debug in production
+            //'debug' => true,
         ]);
         $this->twig->addExtension(new DebugExtension());
         $this->twig->addGlobal('session', $this->session);

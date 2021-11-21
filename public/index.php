@@ -1,6 +1,6 @@
 <?php
 
-require '../config/dev.php';
+require '../config/prod.php';
 require '../vendor/autoload.php';
 
 session_start();

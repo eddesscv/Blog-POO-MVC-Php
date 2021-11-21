@@ -28,7 +28,7 @@ abstract class Manager
         }
         //On lève une erreur si la connexion échoue
         catch (Exception $errorConnection) {
-            die('Erreur de connection :' . $errorConnection->getMessage());
+            //die('Erreur de connection :' . $errorConnection->getMessage());
         }
     }
     protected function createQuery($sql, $parameters = null)
