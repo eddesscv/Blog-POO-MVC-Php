@@ -34,7 +34,7 @@ class BackController extends Controller
 
             $allArticles = $this->articleManager->getArticles();
             
-            $flagComments = $this->commentManager->getFlagComments();
+            $flagComments = $this->commentManager->getFlagComments(intval($this->session->get('id')));
             $unValComments = $this->commentManager->getUnValidComments(intval($this->session->get('id')));
             $valComments = $this->commentManager->getValidComments(intval($this->session->get('id'))); // Comments par user 
 

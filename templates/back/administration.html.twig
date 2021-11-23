@@ -102,7 +102,6 @@
 					<td>Id</td>
 					<td>Pseudo</td>
 					<td>Message</td>
-					<!--<td>Titre article</td>-->
 					<td>Date</td>
 					<td>Actions</td>
 				</tr>
@@ -112,7 +111,6 @@
 						<td>{{ comment.id }}</td>
 						<td>{{ comment.pseudo }}</td>
 						<td>{{ comment.content|slice(0, 150) }}</td>
-						<!--<td>{{ comment.article_id }}</td>-->
 						<td>Créé le : {{ comment.createdAt|date('d/m/Y H:m:s') }}</td>
 						<td>
 							<a class="btn btn-warning" href="../public/index.php?url=validComment&commentId={{ comment.id }}">Valider le commentaire</a>
@@ -122,7 +120,7 @@
 
 			</table>
 		</div>
-		<div class="tab-pane fade" id="all_comment" role="tabpanel" aria-labelledby="alll_comment-tab">
+		<div class="tab-pane fade" id="all_comment" role="tabpanel" aria-labelledby="all_comment-tab">
 			<table class="table table-bordered">
 				<tr>
 					<td>Id</td>
@@ -185,7 +183,7 @@
 								{% endif %}
 							</td>
 							<td>	
-								{% if user.validUser is not same as ('1') %}
+								{% if user.id is not same as ('1') %}
 									<a class="btn btn-success" href="../public/index.php?url=validerUser&userId={{ user.id }}">
 										Valider
 									</a>

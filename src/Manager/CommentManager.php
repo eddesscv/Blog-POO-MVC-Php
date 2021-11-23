@@ -60,10 +60,11 @@ class CommentManager extends Manager
         $sql = 'DELETE FROM comment WHERE id = ?';
         $this->createQuery($sql, [$commentId]);
     }
-    public function getFlagComments()
-    {
-        $sql = 'SELECT id, pseudo, content, createdAt, flag, validComment FROM comment WHERE flag = ? ORDER BY createdAt DESC';
-        $result = $this->createQuery($sql, [1]);
+    public function getFlagComments($idAdmin)
+    {   
+        $sql = 'SELECT comment.id, comment.pseudo, comment.content, comment.createdAt, comment.flag, comment.validComment, comment.article_id FROM comment INNER JOIN article ON comment.article_id = article.id INNER JOIN user ON article.user_id = user.id WHERE article.user_id = ? and flag = 1 ORDER BY createdAt DESC';
+
+        $result = $this->createQuery($sql, [$idAdmin]);        
         $flagComments = [];
         foreach ($result as $row) {
             $commentId = $row['id'];
