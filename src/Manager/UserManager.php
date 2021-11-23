@@ -19,7 +19,7 @@ class UserManager extends Manager
     }
     public function getUsers()
     {
-        $sql = 'SELECT user.id, user.pseudo, user.createdAt, user.validUser, role.name FROM user INNER JOIN role ON user.role_id = role.id ORDER BY user.id DESC';
+        $sql = 'SELECT user.id, user.pseudo, user.createdAt, user.validUser, role.name FROM user INNER JOIN role ON user.role_id = role.id  WHERE user.validUser = true ORDER BY user.id DESC';
         $result = $this->createQuery($sql);
         $users = [];
         foreach ($result as $row) {
@@ -76,5 +76,18 @@ class UserManager extends Manager
     {
         $sql = 'UPDATE user SET validUser = ? WHERE id = ?';
         $this->createQuery($sql, [1, $userId]);
+    }
+
+    public function getUnvalidUsers ()
+    {   
+        $sql = 'SELECT user.id, user.pseudo, user.createdAt, user.validUser, role.name FROM user INNER JOIN role ON user.role_id = role.id WHERE user.validUser = false ORDER BY user.id DESC';
+        $result = $this->createQuery($sql);
+        $users = [];
+        foreach ($result as $row) {
+            $userId = $row['id'];
+            $users[$userId] = $this->buildObject($row);
+        }
+        $result->closeCursor();
+        return $users;
     }
 }

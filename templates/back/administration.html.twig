@@ -21,6 +21,9 @@
 			<a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="contact" aria-selected="false">Utilisateurs</a>
 		</li>
 		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="unvalidUser-tab" data-toggle="tab" href="#unvalidUser" role="tab" aria-controls="contact" aria-selected="false">New users à valider</a>
+		</li>
+		<li class="nav-item" role="presentation">
 			<a class="nav-link" id="contact_message-tab" data-toggle="tab" href="#contact_message" role="tab" aria-controls="contact" aria-selected="false">Messages</a>
 		</li>
 	</ul>
@@ -159,6 +162,7 @@
 
 			</table>
 		</div>
+
 		<div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
 			{% if session.get('id') is same as('1') %}
 				<table class="table table-bordered">
@@ -167,7 +171,6 @@
 						<td>Pseudo</td>
 						<td>Date</td>
 						<td>Rôle</td>
-						<td>Valider</td>
 						<td>Actions</td>
 					</tr>
 					{% for user in users %}
@@ -182,14 +185,43 @@
 									Éditeur/éditrice
 								{% endif %}
 							</td>
-							<td>	
-								{% if user.id is not same as ('1') %}
+							<td>
+								{% if user.id is not same as('1') %}
+									<a class="btn btn-danger" onclick="if(!confirm('Etes vous sûr de vouloir supprimer cet utilisateur ?')) { return false; }" href="../public/index.php?url=deleteUser&userId={{ user.id }}">
+										<i class="ion-ios-trash-outline" title="Supprimer"></i>
+									</a>
+								{% else %}
+									<p>Suppression impossible</p>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			{% else %}
+				<p>Vous n'avez pas le droit d'accéder à cette page</p>
+			{% endif %}
+		</div>
+
+		<div class="tab-pane fade" id="unvalidUser" role="tabpanel" aria-labelledby="unvalidUser-tab">
+			{% if session.get('id') is same as('1') %}
+				<table class="table table-bordered">
+					<tr>
+						<td>Id</td>
+						<td>Pseudo</td>
+						<td>Date</td>
+						<td>Valider</td>
+						<td>Actions</td>
+					</tr>
+					{% for user in unvalidUsers %}
+						<tr>
+							<td>{{ user.id }}</td>
+							<td>{{ user.pseudo }}</td>
+							<td>Créé le : {{ user.createdAt|date('d/m/Y H:m:s') }}</td>
+						
+							<td>
 									<a class="btn btn-success" href="../public/index.php?url=validerUser&userId={{ user.id }}">
 										Valider
 									</a>
-								{% else %}
-									<p>Validé</p>
-								{% endif %}
 							</td>
 							<td>
 								{% if user.id is not same as('1') %}

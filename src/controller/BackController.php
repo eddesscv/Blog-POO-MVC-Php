@@ -43,6 +43,8 @@ class BackController extends Controller
 
             $users = $this->userManager->getUsers();
 
+            $unvalidUsers = $this->userManager->getUnvalidUsers();
+
             $messages = $this->contactManager->getMessages();
 
             return $this->render('back/administration.html.twig', [
@@ -54,6 +56,7 @@ class BackController extends Controller
                 'allArticles' => $allArticles,
                 'allValComments' => $allValComments,
                 'messages' => $messages,
+                'unvalidUsers' => $unvalidUsers,
             ]);
         }
     }
