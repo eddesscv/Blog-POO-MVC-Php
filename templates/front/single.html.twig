@@ -44,17 +44,7 @@
 							<p class="para">{{ article.content }}</p>
 
 
-							<ul class="tags">
-
-								<br>
-								{# {% if session.get('role') is same as('admin') %}
-																									<div class="actions">
-																										<a class="btn btn-warning" href="../public/index.php?url=editArticle&articleId={{ article.id }}">Modifier</a>
-																										<a class="btn btn-danger" href="../public/index.php?url=deleteArticle&articleId={{ article.id }}">Supprimer</a>
-																									</div>
-																									<br>
-																								{% endif %} #}
-							</ul>
+							
 						</div>
 						<!-- blog-post-inner -->
 
@@ -82,12 +72,12 @@
 								<li>PARTAGER :
 								</li>
 								<li>
-									<a href="https://www.facebook.com/sharer.php?{{
-																																								                    'u=' ~ share_url ~
-																																								                    '&picture=' ~ share_image ~
-																																								                    '&title=' ~ share_title ~
-																																								                    '&description=' ~ share_description
-																																								                }}" target="_blank">
+								<a href="https://www.facebook.com/sharer.php?{{
+																																												'u=' ~ share_url ~
+																																												'&picture=' ~ share_image ~
+																																												'&title=' ~ share_title ~
+																																												'&description=' ~ share_description
+																																											}}" target="_blank">
 										<i class="ion-social-facebook"></i>
 									</a>
 								</li>
@@ -157,16 +147,6 @@
 																	<a class="btn btn-warning" href="../public/index.php?url=flagComment&commentId={{ comment.id }}">Signaler</a>
 																</p>
 															{% endif %}
-														</h5>
-													</div>
-
-													<div class="right-area">
-														<h5
-															class="reply-btn">{#{% if session.get('role') is same as('admin') %}
-																																																																																																																<p>
-																																																																																																																	<a class="btn btn-danger" href="../public/index.php?url=deleteComment&commentId={{ comment.id }}">Supprimer</a>
-																																																																																																																</p>
-																																																																																																															{% endif %}"#}
 														</h5>
 													</div>
 
