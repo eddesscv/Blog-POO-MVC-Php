@@ -28,6 +28,7 @@ abstract class Manager
         }
         //On lève une erreur si la connexion échoue
         catch (Exception $errorConnection) {
+            echo 'Erreur de connection :' . $errorConnection->getMessage();
         }
     }
     protected function createQuery($sql, $parameters = null)
