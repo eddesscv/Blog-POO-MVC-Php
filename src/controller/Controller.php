@@ -9,7 +9,6 @@ use App\src\Manager\CommentManager;
 use App\src\Manager\UserManager;
 use App\src\Manager\ContactManager;
 use App\src\model\Pagination;
-//use App\src\model\View;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
